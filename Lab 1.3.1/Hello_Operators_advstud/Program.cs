@@ -18,13 +18,17 @@ namespace Hello_Operators_advstud
             // implement input of number and comparison result message in the while circle with  comparison condition
             int inputNumber;
             byte count=0;
-            Console.Write("Enter a number between 0 and 200: ");
+            Console.Write("Enter a number between 0 and {0}: ",MyMax);
             int.TryParse(Console.ReadLine(), out inputNumber);
             while (inputNumber != guessNumber)
             {
                 count++;
                 Console.Write("You don't guess, please enter a number again: ");
                 int.TryParse(Console.ReadLine(), out inputNumber);
+                if (inputNumber == guessNumber)
+                {
+                    break;
+                }
                 if (count > 4)
                 {
                     string hint = guessNumber < inputNumber ? $"Number less than {inputNumber}" 
