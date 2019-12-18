@@ -90,7 +90,8 @@ namespace Airport
 
 
         static void Main(string[] args)
-        {
+        {            
+
             #region FillingAirportPanel
             AirportPanel flight1 = new AirportPanel
             {
@@ -103,11 +104,11 @@ namespace Airport
             };
 
             flight1.airportArrival.arrivalCity = "Kyiv";
-            flight1.airportArrival.arrivalData = new DateTime(2015, 7, 20, 18, 30, 25);
+            flight1.airportArrival.arrivalData = DateTime.Now;
             flight1.airportArrival.arrivalPort = "Boryspil";
 
             flight1.airportDeparture.departureCity = "Lviv";
-            flight1.airportDeparture.departureData = new DateTime(2015, 7, 21, 03, 17, 43);
+            flight1.airportDeparture.departureData = new DateTime(2019, 12, 19, 03, 17, 00);
             flight1.airportDeparture.departurePort = "Mikolay";
 
             AirportPanel flight2 = new AirportPanel
@@ -121,14 +122,32 @@ namespace Airport
             };
 
             flight2.airportArrival.arrivalCity = "Moscow";
-            flight2.airportArrival.arrivalData = new DateTime(2019, 3, 17, 19, 20, 25);
+            flight2.airportArrival.arrivalData = new DateTime(2019, 3, 17, 19, 20, 00);
             flight2.airportArrival.arrivalPort = "Square";
                   
             flight2.airportDeparture.departureCity = "Kyiv";
-            flight2.airportDeparture.departureData = new DateTime(2019, 3, 18, 01, 27, 52);
+            flight2.airportDeparture.departureData = new DateTime(2019, 3, 18, 01, 27, 00);
             flight2.airportDeparture.departurePort = "Boryspil";
 
-            AirportPanel[] airportPanel = new AirportPanel[] { flight1, flight2, flight1 };
+            AirportPanel flight3 = new AirportPanel
+            {
+                airline = "Three",
+                flightNumber = 825,
+                flightStatus = FlightStatus.expectedAt,
+                gate = 3,
+                terminal = 7,
+                emergencyInformation = EmergencyInformation.evacuation
+            };
+
+            flight3.airportArrival.arrivalCity = "Odessa";
+            flight3.airportArrival.arrivalData = DateTime.Now;
+            flight3.airportArrival.arrivalPort = "Boryspil";
+                  
+            flight3.airportDeparture.departureCity = "Minsk";
+            flight3.airportDeparture.departureData = new DateTime(2019, 12, 28, 17, 47, 00);
+            flight3.airportDeparture.departurePort = "Wisky";
+
+            AirportPanel[] airportPanel = new AirportPanel[] { flight1, flight2, flight1, flight3 };
             #endregion
             int a;
             try
@@ -267,7 +286,7 @@ namespace Airport
                                 Console.Write("Enter arrival city: ");
                                 flight.airportArrival.arrivalCity = Console.ReadLine();
 
-                                Console.Write("Enter arrival date and time in the format dd.mm.yy h:m:s: ");
+                                Console.Write("Enter arrival date and time in the format dd.mm.yy h:m: ");
                                 flight.airportArrival.arrivalData = DateTime.Parse(Console.ReadLine());
 
                                 Console.Write("Enter arrival port: ");
@@ -276,7 +295,7 @@ namespace Airport
                                 Console.Write("Enter departure city: ");
                                 flight.airportDeparture.departureCity = Console.ReadLine();
                                 
-                                Console.Write("Enter departure date and time in the format dd.mm.yy h:m:s: ");
+                                Console.Write("Enter departure date and time in the format dd.mm.yy h:m: ");
                                 flight.airportDeparture.departureData = DateTime.Parse(Console.ReadLine());
 
                                 Console.Write("Enter departure port: ");
@@ -499,7 +518,7 @@ namespace Airport
                                                 }
                                             case 7:
                                                 {
-                                                    Console.WriteLine("Enter new arrival date and time in the format dd.mm.yy h:m:s");
+                                                    Console.WriteLine("Enter new arrival date and time in the format dd.mm.yy h:m");
                                                     airportPanel[a-1].airportArrival.arrivalData = DateTime.Parse(Console.ReadLine());
                                                     Console.WriteLine();
 
@@ -521,7 +540,7 @@ namespace Airport
                                                 }
                                             case 10:
                                                 {
-                                                    Console.WriteLine("Enter new departure date and time in the format dd.mm.yy h:m:s");
+                                                    Console.WriteLine("Enter new departure date and time in the format dd.mm.yy h:m");
                                                     airportPanel[a-1].airportDeparture.departureData = DateTime.Parse(Console.ReadLine());
                                                     break;
                                                 }
@@ -626,14 +645,76 @@ namespace Airport
                                     case 5:
                                         #region  nearestSearchTimeTo
 
+                                        for (int i = 0; i < airportPanel.Length; i++)
+                                        {
+                                            for (int j = 0; j < airportPanel.Length-1; j++)
+                                            {
+                                                if (airportPanel[j].airportArrival.arrivalData > airportPanel[j+1].airportArrival.arrivalData)
+                                                {
+                                                    var temp = airportPanel[j];
+                                                    airportPanel[j] = airportPanel[j + 1];
+                                                    airportPanel[j + 1] = temp;
+                                                }
+                                            }
+                                        }
+                                        Console.Write($"Enter {parametrs[2].ToLower()}: ");
+                                        string enteredArrivalePort = Console.ReadLine();
 
+                                        Console.Write($"Enter time in the format hh:mm: ");
+                                        TimeSpan enteredArrivalTime = TimeSpan.Parse(Console.ReadLine());
 
+                                        for (int i = 0; i < airportPanel.Length; i++)
+                                        {
+                                            if(airportPanel[i].airportArrival.arrivalPort== enteredArrivalePort)
+                                            {
+                                                if (airportPanel[i].airportArrival.arrivalData.Date == DateTime.Today
+                                                    && (airportPanel[i].airportArrival.arrivalData.TimeOfDay - enteredArrivalTime) < TimeSpan.FromHours(1)) 
+                                                {
+                                                    airportPanel[i].InformationOutput();
+                                                }
+                                                else
+                                                {
+                                                    break;
+                                                }
+                                            }
+                                        }
                                         #endregion
                                         break;
                                     case 6:
                                         #region  nearestSearchTimeFrom
+                                        for (int i = 0; i < airportPanel.Length; i++)
+                                        {
+                                            for (int j = 0; j < airportPanel.Length - 1; j++)
+                                            {
+                                                if (airportPanel[j].airportDeparture.departureData > airportPanel[j + 1].airportDeparture.departureData)
+                                                {
+                                                    var temp = airportPanel[j];
+                                                    airportPanel[j] = airportPanel[j + 1];
+                                                    airportPanel[j + 1] = temp;
+                                                }
+                                            }
+                                        }
+                                        Console.Write($"Enter {parametrs[2].ToLower()}: ");
+                                        string enteredDepartureePort = Console.ReadLine();
 
+                                        Console.Write($"Enter time in the format hh:mm: ");
+                                        TimeSpan enteredDepartureTime = TimeSpan.Parse(Console.ReadLine());
 
+                                        for (int i = 0; i < airportPanel.Length; i++)
+                                        {
+                                            if (airportPanel[i].airportDeparture.departurePort == enteredDepartureePort)
+                                            {
+                                                if (airportPanel[i].airportDeparture.departureData.Date == DateTime.Today
+                                                    && (airportPanel[i].airportDeparture.departureData.TimeOfDay - enteredDepartureTime) < TimeSpan.FromHours(1))
+                                                {
+                                                    airportPanel[i].InformationOutput();
+                                                }
+                                                else
+                                                {
+                                                    break;
+                                                }
+                                            }
+                                        }
 
                                         #endregion
                                         break;
