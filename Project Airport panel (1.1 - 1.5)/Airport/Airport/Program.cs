@@ -7,26 +7,6 @@ namespace Airport
 {
     class Program
     {
-//•Please, create a console application for the flight information panel at the airport
-//•provide:
-//–view of the flight information about arrivals and departures(separately). 
-//      It should reflect the information about the arrival(departure) date and time, flight number, city/port of arrival(departure), airline, terminal, 
-//flight status(check-in, gate closed, arrived, departed at, unknown, canceled, expected at, delayed, in flight), gate
-//–
-//–input, deleting and editing of  this information
-//–search by the flight number, time of arrival, arrival(departure) port and the information output about the found flight in the specified format
-//–search of the flight which is the nearest(1 hour) to the specified time to/from the specified port and output  information sorted by time
-//–output of the emergency information(evacuation, fire, etc.)
-//–menu for input and output
-//•use:
-//–arrays
-//–casting and type conversions
-//–loops
-//–switch
-//–read/write from/to console
-//–string format
-//–Console class properties
-
         struct AirportArrival
         {
            public DateTime arrivalDate;
@@ -88,25 +68,23 @@ namespace Airport
 
         }
 
-
         static void Main(string[] args)
         {
             #region InitalizationArrayForFlighting
             Random random = new Random();
 
-            const int flightsCount = 3;
+            const int flightsCount = 10;
             AirportPanel[] airportPanel = new AirportPanel[flightsCount];
 
             string[] airline = {"Ukraine Intl Air", "LOT", "KLM", "S7 Airlines", "Onur Air"};
             ushort[] flightNumber = { 321, 642, 101, 554, 294 };
             byte[] gate = { 1, 2, 3, 4, 5 };
             byte[] terminal = { 99, 88, 77, 66, 55 };
+
             string[] arrivalCity = { "Rome", "Kyiv", "Bangkok", "Kingston", "London" };
-            DateTime[] arrivalDate = { new DateTime(2019, 12, 22, 18, 32, 00), new DateTime(2019, 12, 24, 17, 01, 00), new DateTime(2019, 12, 29, 03, 17, 00) };
             string[] arrivalPort = { "Borneo", "Madagascar", "Sumatra", "Honshu", "Sulawesi" };
             
             string[] departureCity = { "Kinshasa", "Libreville", "Nur-Sultan", "Oslo", "Ottawa" };
-            DateTime[] departureDate = { new DateTime(2019, 12, 19, 13, 24, 00), new DateTime(2019, 12, 21, 05, 32, 00), new DateTime(2019, 12, 20, 15, 59, 00) };
             string[] departurePort = { "Java", "Luzon", "Mindanao", "Marajó", "Kyushu" };
 
             for (int i = 0; i < flightsCount; i++)
@@ -122,11 +100,11 @@ namespace Airport
                 };
 
                 flight.airportArrival.arrivalCity = arrivalCity[random.Next(0, arrivalCity.Length)];
-                flight.airportArrival.arrivalDate = arrivalDate[random.Next(0, arrivalDate.Length)];
+                flight.airportArrival.arrivalDate = DateTime.Now.AddHours(random.Next(0, 1)).AddMinutes(random.Next(0, 59));
                 flight.airportArrival.arrivalPort = arrivalPort[random.Next(0, arrivalPort.Length)];
 
                 flight.airportDeparture.departureCity = departureCity[random.Next(0, departureCity.Length)];
-                flight.airportDeparture.departureDate = departureDate[random.Next(0, departureDate.Length)];
+                flight.airportDeparture.departureDate = flight.airportArrival.arrivalDate.AddDays(random.Next(-1, 0)).AddHours(random.Next(-1, 0)).AddMinutes(random.Next(-59, 0));
                 flight.airportDeparture.departurePort = departurePort[random.Next(0, departurePort.Length)];
 
                 airportPanel[i] = flight;
@@ -198,8 +176,6 @@ namespace Airport
             {
                 Console.WriteLine(ex.Message);
             }
-
-
             Console.ReadLine();
         }
         static AirportPanel[] CreateNewFlight(AirportPanel[] airportPanel)
@@ -264,30 +240,25 @@ namespace Airport
             {
                 Console.WriteLine($@"        {i + 1}.  Flight: {airportPanel[i].flightNumber}");
             }
-            try
+
+            int input = (int)uint.Parse(Console.ReadLine());
+            AirportPanel[] tempAirportPanelDelete = new AirportPanel[airportPanel.Length - 1];
+            for (int i = 0; i < airportPanel.Length; i++)
             {
-                int a = (int)uint.Parse(Console.ReadLine());
-                AirportPanel[] tempAirportPanelDelete = new AirportPanel[airportPanel.Length - 1];
-                for (int i = 0; i < airportPanel.Length; i++)
+                if (i == (input - 1))
                 {
-                    if (i == (a - 1))
-                    {
-                        deleteElement++;
-                        continue;
-                    }
-                    tempAirportPanelDelete[i - deleteElement] = airportPanel[i];
+                    deleteElement++;
+                    continue;
                 }
-                airportPanel = new AirportPanel[tempAirportPanelDelete.Length];
-                for (int i = 0; i < tempAirportPanelDelete.Length; i++)
-                {
-                    airportPanel[i] = tempAirportPanelDelete[i];
-                }
+                tempAirportPanelDelete[i - deleteElement] = airportPanel[i];
             }
-            catch (Exception ex)
+            airportPanel = new AirportPanel[tempAirportPanelDelete.Length];
+            for (int i = 0; i < tempAirportPanelDelete.Length; i++)
             {
-                Console.WriteLine(ex.Message);
+                airportPanel[i] = tempAirportPanelDelete[i];
             }
-        return airportPanel;
+
+            return airportPanel;
 
         }
         static AirportPanel[] UpdateFlightsInformation(AirportPanel[] airportPanel)
@@ -297,8 +268,6 @@ namespace Airport
             {
                 Console.WriteLine($@"        {i + 1}.  Flight: {airportPanel[i].flightNumber}");
             }
-            try
-            {
 
                 int a = (int)uint.Parse(Console.ReadLine());
 
@@ -317,8 +286,7 @@ namespace Airport
         11. Departure city
         12. Departure port
                     ");
-                try
-                {
+
                     int b = (int)uint.Parse(Console.ReadLine());
                     switch (b)
                     {
@@ -396,17 +364,8 @@ namespace Airport
                                 Console.WriteLine("Uncorrect option");
                                 break;
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
+                
 
-            }
-            catch
-            {
-                Console.WriteLine("Uncorrect choose");
-            }
             return airportPanel;
         }
         static AirportPanel[] SearchInformation(AirportPanel[] airportPanel)
@@ -421,135 +380,83 @@ namespace Airport
             ushort searchParam = ushort.Parse(Console.ReadLine());
             switch (searchParam)
             {
-                case 1:
-                    #region searchFlightNumber
-                    Console.Write($"Enter {parametrs[searchParam - 1].ToLower()}: ");
-                    ushort searchFlightNumber = ushort.Parse(Console.ReadLine());
-                    for (int i = 0; i < airportPanel.Length; i++)
+                case (int)ParamForSearch.flightNumber:
                     {
-                        if (airportPanel[i].flightNumber == searchFlightNumber)
+                        Console.Write($"Enter {parametrs[searchParam - 1].ToLower()}: ");
+                        ushort searchFlightNumber = ushort.Parse(Console.ReadLine());
+                        for (int i = 0; i < airportPanel.Length; i++)
                         {
-                            airportPanel[i].InformationOutput();
-                        }
-                    }
-                    #endregion
-                    break;
-                case 2:
-                    #region searchArrivalTime
-                    Console.Write($"Enter {parametrs[searchParam - 1].ToLower()} in the format hh:mm: ");
-                    DateTime searchArrivalTime = DateTime.Parse(Console.ReadLine());
-                    for (int i = 0; i < airportPanel.Length; i++)
-                    {
-                        if (airportPanel[i].airportArrival.arrivalDate.Hour == searchArrivalTime.Hour
-                            && airportPanel[i].airportArrival.arrivalDate.Minute == searchArrivalTime.Minute)
-                        {
-                            airportPanel[i].InformationOutput();
-                        }
-                    }
-                    #endregion
-                    break;
-                case 3:
-                    #region searchArrivalPort
-                    Console.Write($"Enter {parametrs[searchParam - 1].ToLower()}: ");
-                    string searchArrivalPort = Console.ReadLine();
-                    for (int i = 0; i < airportPanel.Length; i++)
-                    {
-                        if (airportPanel[i].airportArrival.arrivalPort == searchArrivalPort)
-                        {
-                            airportPanel[i].InformationOutput();
-                        }
-                    }
-                    #endregion
-                    break;
-                case 4:
-                    #region searchDeparturePort
-                    Console.Write($"Enter {parametrs[searchParam - 1].ToLower()}: ");
-                    string searchDeparturePort = Console.ReadLine();
-                    for (int i = 0; i < airportPanel.Length; i++)
-                    {
-                        if (airportPanel[i].airportDeparture.departurePort == searchDeparturePort)
-                        {
-                            airportPanel[i].InformationOutput();
-                        }
-                    }
-                    #endregion
-                    break;
-                case 5:
-                    #region  nearestSearchTimeTo
-
-                    for (int i = 0; i < airportPanel.Length; i++)
-                    {
-                        for (int j = 0; j < airportPanel.Length - 1; j++)
-                        {
-                            if (airportPanel[j].airportArrival.arrivalDate > airportPanel[j + 1].airportArrival.arrivalDate)
-                            {
-                                var temp = airportPanel[j];
-                                airportPanel[j] = airportPanel[j + 1];
-                                airportPanel[j + 1] = temp;
-                            }
-                        }
-                    }
-                    Console.Write($"Enter {parametrs[2].ToLower()}: ");
-                    string enteredArrivalePort = Console.ReadLine();
-
-                    Console.Write($"Enter time in the format hh:mm: ");
-                    TimeSpan enteredArrivalTime = TimeSpan.Parse(Console.ReadLine());
-
-                    for (int i = 0; i < airportPanel.Length; i++)
-                    {
-                        if (airportPanel[i].airportArrival.arrivalPort == enteredArrivalePort)
-                        {
-                            if (airportPanel[i].airportArrival.arrivalDate.Date == DateTime.Today
-                                && (airportPanel[i].airportArrival.arrivalDate.TimeOfDay - enteredArrivalTime) < TimeSpan.FromHours(1))
+                            if (airportPanel[i].flightNumber == searchFlightNumber)
                             {
                                 airportPanel[i].InformationOutput();
                             }
-                            else
-                            {
-                                break;
-                            }
                         }
+                        break;
                     }
-                    #endregion
-                    break;
-                case 6:
-                    #region  nearestSearchTimeFrom
-                    for (int i = 0; i < airportPanel.Length; i++)
+                case (int)ParamForSearch.timeOfarrival:
                     {
-                        for (int j = 0; j < airportPanel.Length - 1; j++)
+                        Console.Write($"Enter {parametrs[searchParam - 1].ToLower()} in the format hh:mm: ");
+                        DateTime searchArrivalTime = DateTime.Parse(Console.ReadLine());
+                        for (int i = 0; i < airportPanel.Length; i++)
                         {
-                            if (airportPanel[j].airportDeparture.departureDate > airportPanel[j + 1].airportDeparture.departureDate)
-                            {
-                                var temp = airportPanel[j];
-                                airportPanel[j] = airportPanel[j + 1];
-                                airportPanel[j + 1] = temp;
-                            }
-                        }
-                    }
-                    Console.Write($"Enter {parametrs[2].ToLower()}: ");
-                    string enteredDepartureePort = Console.ReadLine();
-
-                    Console.Write($"Enter time in the format hh:mm: ");
-                    TimeSpan enteredDepartureTime = TimeSpan.Parse(Console.ReadLine());
-
-                    for (int i = 0; i < airportPanel.Length; i++)
-                    {
-                        if (airportPanel[i].airportDeparture.departurePort == enteredDepartureePort)
-                        {
-                            if (airportPanel[i].airportDeparture.departureDate.Date == DateTime.Today
-                                && (airportPanel[i].airportDeparture.departureDate.TimeOfDay - enteredDepartureTime) < TimeSpan.FromHours(1))
+                            if (airportPanel[i].airportArrival.arrivalDate.Hour == searchArrivalTime.Hour
+                                && airportPanel[i].airportArrival.arrivalDate.Minute == searchArrivalTime.Minute)
                             {
                                 airportPanel[i].InformationOutput();
                             }
-                            else
+                        }
+                        break;
+                    }
+                case (int)ParamForSearch.arrivalPort:
+                    {
+                        Console.Write($"Enter {parametrs[searchParam - 1].ToLower()}: ");
+                        string searchArrivalPort = Console.ReadLine();
+                        for (int i = 0; i < airportPanel.Length; i++)
+                        {
+                            if (airportPanel[i].airportArrival.arrivalPort == searchArrivalPort)
                             {
-                                break;
+                                airportPanel[i].InformationOutput();
                             }
                         }
+                        break;
                     }
-
-                    #endregion
-                    break;
+                case (int)ParamForSearch.departurePort:
+                    {
+                        Console.Write($"Enter {parametrs[searchParam - 1].ToLower()}: ");
+                        string searchDeparturePort = Console.ReadLine();
+                        for (int i = 0; i < airportPanel.Length; i++)
+                        {
+                            if (airportPanel[i].airportDeparture.departurePort == searchDeparturePort)
+                            {
+                                airportPanel[i].InformationOutput();
+                            }
+                        }
+                        break;
+                    }
+                case (int)ParamForSearch.nearestFlightArrived:
+                    {
+                        DateTime[] airportDate = new DateTime[airportPanel.Length];
+                        string[] ports = new string[airportPanel.Length];
+                        for (int i = 0; i < airportPanel.Length; i++)
+                        {
+                            airportDate[i] = airportPanel[i].airportArrival.arrivalDate;
+                            ports[i] = airportPanel[i].airportArrival.arrivalPort;
+                        }
+                        SortAndNearestFlight(airportPanel, airportDate, parametrs, 2, ports);
+                        break;
+                    }
+                case (int)ParamForSearch.nearestFlightDeparture:
+                    {
+                        DateTime[] airportDate = new DateTime[airportPanel.Length];
+                        string[] ports = new string[airportPanel.Length];
+                        for (int i = 0; i < airportPanel.Length; i++)
+                        {
+                            airportDate[i] = airportPanel[i].airportDeparture.departureDate;
+                            ports[i] = airportPanel[i].airportDeparture.departurePort;
+                        }
+                        SortAndNearestFlight(airportPanel, airportDate, parametrs, 3, ports);
+                        break;
+                    }
             }
             return airportPanel;
         }
@@ -568,21 +475,14 @@ namespace Airport
             {
                 Console.WriteLine($"        {i + 1}.  Flight: {airportPanel[i].flightNumber}");
             }
-            try
-            {
-                int a = (int)uint.Parse(Console.ReadLine());
-                Console.WriteLine();
-                airportPanel[a - 1].EmerganceInformation();
-            }
-            catch
-            {
-                Console.WriteLine("Uncorrect choose");
-            }
+            int a = (int)uint.Parse(Console.ReadLine());
+            Console.WriteLine();
+            airportPanel[a - 1].EmerganceInformation();
+
             return airportPanel;
         }
         static FlightStatus NewStatus(AirportPanel flight)
         {
-            #region EnterStatus
             int unknownEnter = new int();
             int skipUnknownEnter = new int();
 
@@ -594,8 +494,7 @@ namespace Airport
                     unknownEnter = i;
                     continue;
                 }
-
-                Console.WriteLine($@"           {i + 1 - skipUnknownEnter}. {Enum.GetName(typeof(FlightStatus), i)}");
+                Console.WriteLine($@"           {i + 1 - skipUnknownEnter}.{Enum.GetName(typeof(FlightStatus), i)}");
             }
             int statusEnter = int.Parse(Console.ReadLine());
             if (statusEnter > unknownEnter)
@@ -639,9 +538,9 @@ namespace Airport
                         flight.flightStatus = FlightStatus.gateClosed;
                         break;
                     }
-                case (int)FlightStatus.Inflight:
+                case (int)FlightStatus.inFlight:
                     {
-                        flight.flightStatus = FlightStatus.Inflight;
+                        flight.flightStatus = FlightStatus.inFlight;
                         break;
                     }
                 default:
@@ -651,7 +550,6 @@ namespace Airport
                     }
             }
             return flight.flightStatus;
-            #endregion
         }
         static EmergencyInformation NewEmergencyInformation(AirportPanel flight)
         {
@@ -676,13 +574,66 @@ namespace Airport
             }
             return flight.emergencyInformation;
         }
+        static void SortAndNearestFlight(AirportPanel[] airportPanel, DateTime[] airportDate, string[] parametrs, int parametrsID, string[] ports)
+        {
+            for (int i = 0; i < airportPanel.Length; i++)
+            {
+                for (int j = 0; j < airportPanel.Length - 1; j++)
+                {
+                    if (airportDate[j] > airportDate[j+1])
+                    {
+                        var tempAirport = airportPanel[j];
+                        airportPanel[j] = airportPanel[j + 1];
+                        airportPanel[j + 1] = tempAirport;
+
+                        var tempDate = airportDate[j];
+                        airportDate[j] = airportDate[j + 1];
+                        airportDate[j + 1] = tempDate;
+
+                        var tempPorts = ports[j];
+                        ports[j] = ports[j + 1];
+                        ports[j + 1] = tempPorts;
+                    }
+                }
+            }
+
+            Console.Write($"Enter {parametrs[parametrsID].ToLower()}: ");
+            string enteredPort = Console.ReadLine();
+
+            Console.Write($"Enter time in the format hh:mm: ");
+            TimeSpan enteredTime = TimeSpan.Parse(Console.ReadLine());
+
+            DateTime enteredDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,
+                enteredTime.Hours, enteredTime.Minutes, 0);
+
+            DateTime compareDate = enteredDate.AddHours(1);
+
+            for (int i = 0; i < airportPanel.Length; i++)
+            {
+                if (ports[i] == enteredPort)
+                {
+                    if (airportDate[i] >= enteredDate && airportDate[i] <= compareDate)  
+                    {
+                        airportPanel[i].InformationOutput();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
         enum FlightStatus
         {
-            checkIn, gateClosed, arrived, departedAt, unknown, canceled, expectedAt, delayed, Inflight
+            checkIn, gateClosed, arrived, departedAt, unknown, canceled, expectedAt, delayed, inFlight
         }
         enum EmergencyInformation
         {
             evacuation, fire
+        }
+        enum ParamForSearch
+        {
+            flightNumber = 1, timeOfarrival, arrivalPort, departurePort, nearestFlightArrived, nearestFlightDeparture
         }
     }
 }
