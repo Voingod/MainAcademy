@@ -24,7 +24,7 @@ namespace Hello_Cons_Dr_Methods
         //Use draw() to draw the box with message
         public void Draw()
         {
-            draw(X, Y, Width, Height, Symbol, Message);
+            draw(X, Y, Height, Width, Symbol, Message);
         }
 
         //3.  Implement private method draw() with parameters 
@@ -32,15 +32,17 @@ namespace Hello_Cons_Dr_Methods
         //Change the message in the method to return the Box square
         //Use Console.SetCursorPosition() method
         //Trim the message if necessary
-        private void draw(int x, int y, int width, int height, char symbol, string message)
+        private void draw(int x, int y, int height, int width, char symbol, string message)
         {
+            message += $" Square is {height * width}";
+            char[] messageAsSymbols = message.ToCharArray();
             Console.SetCursorPosition(x, y);
             Console.ForegroundColor = ConsoleColor.Green;
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < width; i++)
             {
-                for (int j = 0; j < width; j++)
+                for (int j = 0; j < height; j++)
                 {
-                    if (i == height - 1 || j == width - 1|| i == 0 || j == 0) 
+                    if (i == width - 1 || j == height - 1 || i == 0 || j == 0)
                     {
                         Console.SetCursorPosition(x + i, y + j);
                         Console.Write(symbol);
@@ -48,6 +50,28 @@ namespace Hello_Cons_Dr_Methods
                 }
                 Console.WriteLine();
             }
+            Console.ForegroundColor = ConsoleColor.Red;
+            int shiftY = 1;
+            int lineBreak = 0;
+            Console.SetCursorPosition(x + shiftY, y + shiftY);
+            for (int i = 0; i < messageAsSymbols.Length; i++)
+            {
+                Console.Write(messageAsSymbols[i]);
+                if (lineBreak++ == width - 3)
+                {
+                    lineBreak = 0;
+                    shiftY++;
+                    Console.WriteLine();
+                    Console.SetCursorPosition(x + 1, y + shiftY);
+                }
+                if (shiftY == height - 1)
+                {
+                    break;
+                }
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.SetCursorPosition(x + width, y + height);
+            Console.WriteLine();
         }
 
 

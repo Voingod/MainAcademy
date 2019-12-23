@@ -25,10 +25,10 @@ namespace Hello_Cons_Dr_Methods
                     box.Width = random.Next(5, 25);
                     box.Height = random.Next(5, 25);
                     box.Symbol = '*';
-                    box.Message = "Draw something";
+                    box.Message = "Draw something.";
                     box.Draw();
-                } while (Console.ReadKey().Key != ConsoleKey.Backspace);
-                //Console.WriteLine("Press any key...");
+                    Console.WriteLine("Press any key for continue or press esc for exit");
+                } while (Console.ReadKey().Key != ConsoleKey.Escape);
             
             }
             catch (Exception)
