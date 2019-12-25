@@ -77,8 +77,6 @@ namespace Airport
             AirportPanel[] airportPanel = new AirportPanel[flightsCount];
 
             string[] airline = {"Ukraine Intl Air", "LOT", "KLM", "S7 Airlines", "Onur Air"};
-            ushort[] flightNumber = { 321, 642, 101, 554, 294 };
-            byte[] gate = { 1, 2, 3, 4, 5 };
             byte[] terminal = { 99, 88, 77, 66, 55 };
 
             string[] arrivalCity = { "Rome", "Kyiv", "Bangkok", "Kingston", "London" };
@@ -92,19 +90,19 @@ namespace Airport
                 AirportPanel flight = new AirportPanel
                 {
                     airline = airline[random.Next(0, airline.Length)],
-                    flightNumber = flightNumber[random.Next(0, flightNumber.Length)],
+                    flightNumber = (ushort)random.Next(100, 701),
                     flightStatus = (FlightStatus)random.Next(0, Enum.GetValues(typeof(FlightStatus)).Length),
-                    gate = gate[random.Next(0, gate.Length)],
-                    terminal = terminal[random.Next(0, terminal.Length)],
+                    gate = (byte)random.Next(1, 10),
+                    terminal = (byte)random.Next(10, 100),
                     emergencyInformation = (EmergencyInformation)random.Next(0, Enum.GetValues(typeof(EmergencyInformation)).Length),
                 };
 
                 flight.airportArrival.arrivalCity = arrivalCity[random.Next(0, arrivalCity.Length)];
-                flight.airportArrival.arrivalDate = DateTime.Now.AddHours(random.Next(0, 1)).AddMinutes(random.Next(0, 59));
+                flight.airportArrival.arrivalDate = DateTime.Now.AddHours(random.Next(0, 2)).AddMinutes(random.Next(0, 60));
                 flight.airportArrival.arrivalPort = arrivalPort[random.Next(0, arrivalPort.Length)];
 
                 flight.airportDeparture.departureCity = departureCity[random.Next(0, departureCity.Length)];
-                flight.airportDeparture.departureDate = flight.airportArrival.arrivalDate.AddDays(random.Next(-1, 0)).AddHours(random.Next(-1, 0)).AddMinutes(random.Next(-59, 0));
+                flight.airportDeparture.departureDate = flight.airportArrival.arrivalDate.AddDays(random.Next(-1, 1)).AddHours(random.Next(-1, 1)).AddMinutes(random.Next(-59, 1));
                 flight.airportDeparture.departurePort = departurePort[random.Next(0, departurePort.Length)];
 
                 airportPanel[i] = flight;
@@ -131,27 +129,27 @@ namespace Airport
                         Console.WriteLine();
                         switch (a)
                         {
-                            case 1:
+                            case (int)ParamMenu.CreateNewFlight:
                                 airportPanel = CreateNewFlight(airportPanel);
                                 break;
 
-                            case 2:
+                            case (int)ParamMenu.DeleteFlight:
                                 airportPanel = DeleteFlight(airportPanel);
                                 break;                            
 
-                            case 3:
+                            case (int)ParamMenu.UpdateFlightsInformation:
                                 airportPanel = UpdateFlightsInformation(airportPanel);
                                 break;
 
-                            case 4:
+                            case (int)ParamMenu.SearchInformation:
                                 airportPanel = SearchInformation(airportPanel);
                                 break;
 
-                            case 5:
+                            case (int)ParamMenu.OutputSchedule:
                                 airportPanel = OutputSchedule(airportPanel);
                                 break;
 
-                            case 6:
+                            case (int)ParamMenu.OutputEmergencyInformation:
                                 airportPanel = OutputEmergencyInformation(airportPanel);
 
                                 break;
@@ -290,71 +288,70 @@ namespace Airport
                     int b = (int)uint.Parse(Console.ReadLine());
                     switch (b)
                     {
-                        case 1:
+                        case (int)ParamUpdate.UpdateNumberOfGate:
                                 Console.Write("Enter new number of gate: ");
                                 airportPanel[a - 1].gate = byte.Parse(Console.ReadLine());
                                 Console.WriteLine();
                                 break;
                             
-                        case 2:
+                        case (int)ParamUpdate.UpdateFlightNumber:
                                 Console.Write("Enter new flight number: ");
                                 airportPanel[a - 1].flightNumber = ushort.Parse(Console.ReadLine());
                                 Console.WriteLine();
                                 break;
                             
-                        case 3:
+                        case (int)ParamUpdate.UpdateAirline:
                                 Console.Write("Enter new airline: ");
                                 airportPanel[a - 1].airline = Console.ReadLine();
                                 Console.WriteLine();
                                 break;
                             
-                        case 4:
+                        case (int)ParamUpdate.UpdateTerminal:
                                 Console.Write("Enter new terminal: ");
                                 airportPanel[a - 1].terminal = byte.Parse(Console.ReadLine());
                                 Console.WriteLine();
                                 break;
                             
-                        case 5:
+                        case (int)ParamUpdate.UpdateFlightStatus:
                                 Console.WriteLine("Choose new status: ");
                                 airportPanel[a - 1].flightStatus = NewStatus(airportPanel[a - 1]);
                                 break;
-                            
 
-                        case 6:
+                        case (int)ParamUpdate.UpdateEmergencyInformation:
                                 Console.WriteLine("Choose new emergency information: ");
                                 airportPanel[a - 1].emergencyInformation = NewEmergencyInformation(airportPanel[a - 1]);
                                 break;
                             
-                        case 7:
+                        case (int)ParamUpdate.UpdateDateOfArrive:
                                 Console.WriteLine("Enter new arrival date and time in the format dd.mm.yy h:m");
                                 airportPanel[a - 1].airportArrival.arrivalDate = DateTime.Parse(Console.ReadLine());
                                 Console.WriteLine();
                                 break;
                             
-                        case 8:
+                        case (int)ParamUpdate.UpdateArrivalCity:
                                 Console.Write("Enter new arrival city: ");
                                 airportPanel[a - 1].airportArrival.arrivalCity = Console.ReadLine();
                                 Console.WriteLine();
                                 break;
                             
-                        case 9:
+                        case (int)ParamUpdate.UpdateArrivalPort:
                                 Console.Write("Enter new arrival port: ");
                                 airportPanel[a - 1].airportArrival.arrivalPort = Console.ReadLine();
                                 Console.WriteLine();
                                 break;
                             
-                        case 10:
+                        case (int)ParamUpdate.UpdateDateOfDeparture:
                                 Console.WriteLine("Enter new departure date and time in the format dd.mm.yy h:m");
                                 airportPanel[a - 1].airportDeparture.departureDate = DateTime.Parse(Console.ReadLine());
                                 break;
 
-                        case 11:
+                        case (int)ParamUpdate.UpdateDepartureCity:
                                 Console.Write("Enter new departure city: ");
                                 airportPanel[a - 1].airportDeparture.departureCity = Console.ReadLine();
                                 Console.WriteLine();
                                 break;
 
-                        case 12:
+                        case (int)ParamUpdate.UpdateDeparturePort:
                                 Console.Write("Enter new departure port: ");
                                 airportPanel[a - 1].airportDeparture.departurePort = Console.ReadLine();
                                 Console.WriteLine();
@@ -634,6 +631,15 @@ namespace Airport
         enum ParamForSearch
         {
             flightNumber = 1, timeOfarrival, arrivalPort, departurePort, nearestFlightArrived, nearestFlightDeparture
+        }
+        enum ParamMenu 
+        { 
+            CreateNewFlight=1, DeleteFlight,UpdateFlightsInformation, SearchInformation, OutputSchedule, OutputEmergencyInformation 
+        }
+        enum ParamUpdate
+        {
+            UpdateNumberOfGate = 1, UpdateFlightNumber, UpdateAirline, UpdateTerminal, UpdateFlightStatus, UpdateEmergencyInformation,
+            UpdateDateOfArrive, UpdateArrivalCity, UpdateArrivalPort, UpdateDateOfDeparture, UpdateDepartureCity, UpdateDeparturePort
         }
     }
 }
