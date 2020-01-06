@@ -79,7 +79,7 @@ namespace Airport
             {
                 Console.Write(info);
             }
-            public static string  SetInfo ()
+            public static string SetInfo ()
             {
                 string info = Console.ReadLine();
                 return info;
@@ -107,10 +107,10 @@ namespace Airport
                 AirportPanel flight = new AirportPanel
                 {
                     Airline = airline[random.Next(0, airline.Length)],
-                    FlightNumber = (int)random.Next(100, 701),
+                    FlightNumber = random.Next(100, 701),
                     FlightStatus = (FlightStatus)random.Next(0, Enum.GetValues(typeof(FlightStatus)).Length),
-                    Gate = (int)random.Next(1, 10),
-                    Terminal = (int)random.Next(10, 100),
+                    Gate = random.Next(1, 10),
+                    Terminal = random.Next(10, 100),
                     EmergencyInformation = (EmergencyInformation)random.Next(0, Enum.GetValues(typeof(EmergencyInformation)).Length),
                 };
                 AirportArrival airportArrival = new AirportArrival
@@ -385,7 +385,8 @@ namespace Airport
         }
         static void SearchInformation(List<AirportPanel> airportPanel)
         {
-            //Func<AirportPanel, bool>
+            Func<AirportPanel, bool> compare = Compare;
+
             string[] parametrs = { "Flight number", "Date and time for arriaval", "Arrival port", "Departure port",
                                         "The nearest (1 hour) flight (time to)", "The nearest (1 hour) flight (time from)" };
             AirportPanel.GetInfo("Choose parametr, which you want to use for search: ");
@@ -592,6 +593,10 @@ namespace Airport
         {
             if (!TimeSpan.TryParse(AirportPanel.SetInfo(), out param)) 
                 AirportPanel.GetInfoUncorredEntered($"Uncorrect entered parameter");
+        }
+        static bool Compare(AirportPanel airportPanel)
+        {
+            return true;
         }
         enum FlightStatus
         {
