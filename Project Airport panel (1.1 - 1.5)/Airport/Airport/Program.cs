@@ -71,7 +71,7 @@ namespace Airport
                 Console.WriteLine(info);
                 Console.ResetColor();
             }
-            public static void GetInfo(string info)
+            public static void GetInfoCommon(string info)
             {
                 Console.WriteLine(info);
             }
@@ -140,7 +140,7 @@ namespace Airport
             {
                 
                 Console.WriteLine();
-                AirportPanel.GetInfo(@"Please,  type the number:
+                AirportPanel.GetInfoCommon(@"Please,  type the number:
         1.  Create new flight (input all data)
         2.  Delete flight
         3.  Update some information about flight
@@ -191,12 +191,12 @@ namespace Airport
                 }
                 catch (Exception ex)
                 {
-                    AirportPanel.GetInfo(ex.Message);
+                    AirportPanel.GetInfoCommon(ex.Message);
                 }
                 finally
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    AirportPanel.GetInfo("Press Spacebar to exit; press any key to continue");
+                    AirportPanel.GetInfoCommon("Press Spacebar to exit; press any key to continue");
                     Console.ResetColor();
                 }
             } while (Console.ReadKey().Key != ConsoleKey.Spacebar);
@@ -205,7 +205,7 @@ namespace Airport
         }
         static AirportPanel CreateNewFlight()
         {
-            AirportPanel.GetInfo("Adding new flight");
+            AirportPanel.GetInfoCommon("Adding new flight");
             AirportPanel flight = new AirportPanel();
             AirportArrival airportArrival = new AirportArrival();
             AirportDeparture airportDeparture = new AirportDeparture();
@@ -217,7 +217,7 @@ namespace Airport
             SetParam(out int flightNumber);
             flight.FlightNumber = flightNumber;
 
-            AirportPanel.GetInfo("Choose status for adding: ");
+            AirportPanel.GetInfoCommon("Choose status for adding: ");
             NewStatus(flight);
 
             AirportPanel.GetInfoEntered("Enter number of gate: ");
@@ -228,7 +228,7 @@ namespace Airport
             SetParam(out int terminal);
             flight.Terminal = terminal;
 
-            AirportPanel.GetInfo("Choose emergency information for adding: ");
+            AirportPanel.GetInfoCommon("Choose emergency information for adding: ");
             NewEmergencyInformation(flight);
 
             AirportPanel.GetInfoEntered("Enter arrival city: ");
@@ -258,27 +258,27 @@ namespace Airport
         }
         static int DeleteFlight(List<AirportPanel> airportPanel)
         {
-            AirportPanel.GetInfo("Choose schedule for delete:");
+            AirportPanel.GetInfoCommon("Choose schedule for delete:");
             for (int i = 0; i < airportPanel.Count; i++)
             {
-                AirportPanel.GetInfo($@"        {i + 1}.  Flight: {airportPanel[i].FlightNumber}");
+                AirportPanel.GetInfoCommon($@"        {i + 1}.  Flight: {airportPanel[i].FlightNumber}");
             }
             SetParam(out int input);
             return input - 1;
         }
         static void UpdateFlightsInformation(List<AirportPanel> airportPanel)
         {
-            AirportPanel.GetInfo("Choose schedule for update:");
+            AirportPanel.GetInfoCommon("Choose schedule for update:");
             for (int i = 0; i < airportPanel.Count; i++)
             {
-                AirportPanel.GetInfo($@"        {i + 1}.  Flight: {airportPanel[i].FlightNumber}");
+                AirportPanel.GetInfoCommon($@"        {i + 1}.  Flight: {airportPanel[i].FlightNumber}");
             }
             SetParam(out int a);
             AirportArrival airportArrival = airportPanel[a - 1].AirportArrival;
             AirportDeparture airportDeparture = airportPanel[a - 1].AirportDeparture;
 
             Console.WriteLine();
-            AirportPanel.GetInfo(@"What do you want to update?
+            AirportPanel.GetInfoCommon(@"What do you want to update?
         1.  Number of gate
         2.  Flight number
         3.  Airline
@@ -325,12 +325,12 @@ namespace Airport
                     break;
 
                 case ParamUpdate.updateFlightStatus:
-                    AirportPanel.GetInfo("Choose new status: ");
+                    AirportPanel.GetInfoCommon("Choose new status: ");
                     NewStatus(airportPanel[a - 1]);
                     break;
 
                 case ParamUpdate.updateEmergencyInformation:
-                    AirportPanel.GetInfo("Choose new emergency information: ");
+                    AirportPanel.GetInfoCommon("Choose new emergency information: ");
                     NewEmergencyInformation(airportPanel[a - 1]);
                     break;
 
@@ -389,10 +389,10 @@ namespace Airport
 
             string[] parametrs = { "Flight number", "Date and time for arriaval", "Arrival port", "Departure port",
                                         "The nearest (1 hour) flight (time to)", "The nearest (1 hour) flight (time from)" };
-            AirportPanel.GetInfo("Choose parametr, which you want to use for search: ");
+            AirportPanel.GetInfoCommon("Choose parametr, which you want to use for search: ");
             for (int i = 0; i < parametrs.Length; i++)
             {
-                AirportPanel.GetInfo($"       {i + 1}.  {parametrs[i]}");
+                AirportPanel.GetInfoCommon($"       {i + 1}.  {parametrs[i]}");
             }
             SetParam(out int searchParamNumber);
             ParamForSearch searchParam = (ParamForSearch)searchParamNumber;
@@ -477,10 +477,10 @@ namespace Airport
         }
         static void OutputEmergencyInformation(List<AirportPanel> airportPanel)
         {
-            AirportPanel.GetInfo("Where do you want to find out about an emergency?");
+            AirportPanel.GetInfoCommon("Where do you want to find out about an emergency?");
             for (int i = 0; i < airportPanel.Count; i++)
             {
-                AirportPanel.GetInfo($"        {i + 1}.  Flight: {airportPanel[i].FlightNumber}");
+                AirportPanel.GetInfoCommon($"        {i + 1}.  Flight: {airportPanel[i].FlightNumber}");
             }
             SetParam(out int a);
             Console.WriteLine();
@@ -499,7 +499,7 @@ namespace Airport
                     unknownEnter = i;
                     continue;
                 }
-                AirportPanel.GetInfo($@"           {i + 1 - skipUnknownEnter}.{Enum.GetName(typeof(FlightStatus), i)}");
+                AirportPanel.GetInfoCommon($@"           {i + 1 - skipUnknownEnter}.{Enum.GetName(typeof(FlightStatus), i)}");
             }
             SetParam(out int status);
             int statusEnterNumber = status - 1;
@@ -521,7 +521,7 @@ namespace Airport
         {
             for (int i = 0; i < Enum.GetNames(typeof(EmergencyInformation)).Length; i++)
             {
-                AirportPanel.GetInfo($@"           {i + 1}. {Enum.GetName(typeof(EmergencyInformation), i)}");
+                AirportPanel.GetInfoCommon($@"           {i + 1}. {Enum.GetName(typeof(EmergencyInformation), i)}");
             }
             SetParam(out int emergencyInformation);
             if (!Enum.IsDefined(typeof(EmergencyInformation), emergencyInformation - 1))
