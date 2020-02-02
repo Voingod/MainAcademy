@@ -6,7 +6,7 @@
     }
     enum EmergencyInformation
     {
-        evacuation, fire
+        evacuation, fire, unknown, flooding, earthquake
     }
     enum ParamForSearch
     {
@@ -14,11 +14,16 @@
     }
     enum ParamMenu
     {
-        createNewFlight = 1, deleteFlight, updateFlightsInformation, searchInformation, outputSchedule, outputEmergencyInformation
+        createNewFlight = 1, deleteFlight, updateFlightsInformation, searchInformation, outputSchedule, 
+        outputEmergencyInformation, outputPrice
     }
     enum ParamUpdate
     {
-        updateNumberOfGate = 1, updateFlightNumber, updateAirline, updateTerminal, updateFlightStatus, updateEmergencyInformation,
-        updateDateOfArrive, updateArrivalCity, updateArrivalPort, updateDateOfDeparture, updateDepartureCity, updateDeparturePort
+         NumberOfGate = 1,  FlightNumber,  Airline,  Terminal,  FlightStatus,  EmergencyInformation,
+         DateOfArrive,  ArrivalCity,  ArrivalPort,  DateOfDeparture,  DepartureCity,  DeparturePort
+    }
+    enum AirlineClass
+    {
+        econom, bussines
     }
 }
