@@ -208,6 +208,7 @@ namespace Airport
         10. Date of departure
         11. Departure city
         12. Departure port
+        13. Price
                     ");
 
             int.TryParse(workWithUserData.EnteredValueByUser(), out int param);
@@ -234,6 +235,33 @@ namespace Airport
                     airportPanel[a - 1].Airline = airline;
                     Console.WriteLine();
                     break;
+
+                case ParamUpdate.Price:
+                    {
+                        workWithUserData.Print("Enter class for update price: ");
+                        PrintEnum(typeof(AirlineClass));
+                        EnteredValueByUser(out int type);
+                        AirlineClass typeEntered = (AirlineClass)(--type);
+                       
+                        workWithUserData.Print("Enter price: ");
+                        EnteredValueByUser(out int price);
+
+                        switch (typeEntered)
+                        {
+                            case AirlineClass.bussines:
+                                airline.PriceOfAirlineClass[AirlineClass.bussines] = price;
+                                break;
+                            case AirlineClass.econom:
+                                airline.PriceOfAirlineClass[AirlineClass.econom] = price;
+                                break;
+                            default:
+                                workWithUserData.PrintUserUncorrectInput("Exit. Not found option");
+                                break;
+                        }
+                        airportPanel[a - 1].Airline = airline;
+                        Console.WriteLine();
+                        break;
+                    }
 
                 case ParamUpdate.Terminal:
                     workWithUserData.Print("Enter new terminal: ");
@@ -315,7 +343,7 @@ namespace Airport
         {
             Func<AirportPanel, bool> compare;
             string[] parametrs = { "Flight number", "Date and time for arriaval", "Arrival port", "Departure port",
-                                        "The nearest (1 hour) flight (time to)", "The nearest (1 hour) flight (time from)" };
+                                        "The nearest (1 hour) flight (time to)", "The nearest (1 hour) flight (time from)", "Price" };
             workWithUserData.Print("Choose parametr, which you want to use for search: ");
             for (int i = 0; i < parametrs.Length; i++)
             {
@@ -366,6 +394,14 @@ namespace Airport
                         NearestFlight(airportPanel, ParamForSearch.nearestFlightDeparture);
                         break;
                     }
+                case ParamForSearch.price:
+                    {
+                        workWithUserData.Print($"Enter {parametrs[searchParamNumber - 1].ToLower()}: ");
+                        EnteredValueByUser(out int price);
+                        SetSearchParametr(airportPanel, compare = (flight) => flight.Airline.PriceOfAirlineClass[AirlineClass.econom] == price);
+                        SetSearchParametr(airportPanel, compare = (flight) => flight.Airline.PriceOfAirlineClass[AirlineClass.bussines] == price);
+                        break;
+                    }
                 default:
                     workWithUserData.PrintUserUncorrectInput("Exit. Not found option");
                     break;
@@ -400,11 +436,12 @@ namespace Airport
                 workWithUserData.Print($@"           {i + 1 - skipUnknownEnter}. {Enum.GetName(t, i)}");
             }
         }
-        private static EmergencyInformation NewEmergencyInformation(AirportPanel flight)
+
+        private static EmergencyInformation check(AirportPanel flight, Func<int, bool> isUnknown)
         {
             PrintEnum(typeof(EmergencyInformation));
             EnteredValueByUser(out int emergencyInformation);
-            if (emergencyInformation > (int)EmergencyInformation.unknown)
+            if (isUnknown(emergencyInformation))
                 emergencyInformation += 1;
             if (!Enum.IsDefined(typeof(EmergencyInformation), emergencyInformation - 1))
             {
@@ -413,6 +450,11 @@ namespace Airport
             }
 
             return (EmergencyInformation)(emergencyInformation - 1);
+        }
+
+        private static EmergencyInformation NewEmergencyInformation(AirportPanel flight)
+        {
+             return check(flight, x => x > (int)EmergencyInformation.unknown)
         }
 
         private static FlightStatus NewStatus(AirportPanel flight)

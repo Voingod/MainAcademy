@@ -10,7 +10,7 @@
     }
     enum ParamForSearch
     {
-        flightNumber = 1, dataTimeOfarrival, arrivalPort, departurePort, nearestFlightArrived, nearestFlightDeparture
+        flightNumber = 1, dataTimeOfarrival, arrivalPort, departurePort, nearestFlightArrived, nearestFlightDeparture,price
     }
     enum ParamMenu
     {
@@ -20,7 +20,7 @@
     enum ParamUpdate
     {
          NumberOfGate = 1,  FlightNumber,  Airline,  Terminal,  FlightStatus,  EmergencyInformation,
-         DateOfArrive,  ArrivalCity,  ArrivalPort,  DateOfDeparture,  DepartureCity,  DeparturePort
+         DateOfArrive,  ArrivalCity,  ArrivalPort,  DateOfDeparture,  DepartureCity,  DeparturePort, Price
     }
     enum AirlineClass
     {
