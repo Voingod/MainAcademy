@@ -91,7 +91,7 @@ namespace CSharp_Net_module1_7_1_lab
             WriteData(computerData);
             using (FileStream CurrentFileToCompress = new FileStream(CurrentPath + "//" + CurrentFile, FileMode.OpenOrCreate))
             {
-                using (FileStream CompressFile = File.Create(fileNameCompress))
+                using (FileStream CompressFile = File.Create("fghjk.7z"))
                 {
                     using (GZipStream zipStream = new GZipStream(CompressFile, CompressionMode.Compress))
                     {

@@ -45,14 +45,18 @@
   <ItemGroup>
     <Compile Include="Airport\Airline.cs" />
     <Compile Include="Airport\AirportPanel.cs" />
-    <Compile Include="WorkWithUserData\ConsoleWorkingOnUserData.cs" />
+    <Compile Include="WorkWithUserData\Console\ConsolePassengerUserData.cs" />
+    <Compile Include="WorkWithUserData\Console\ConsoleAirportUserData.cs" />
     <Compile Include="EnumOptions.cs" />
     <Compile Include="People\Human.cs" />
-    <Compile Include="WorkWithUserData\IPrinter.cs" />
+    <Compile Include="WorkWithUserData\Console\ConsoleCommonUserData.cs" />
+    <Compile Include="WorkWithUserData\Interface\IPassengerUserData.cs" />
+    <Compile Include="WorkWithUserData\Interface\IAirportUserData.cs" />
+    <Compile Include="WorkWithUserData\Interface\ICommonUserData.cs" />
     <Compile Include="People\Passenger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WorkWithUserData\InputUserValue.cs" />
+    <Compile Include="WorkWithUserData\EnterUserData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

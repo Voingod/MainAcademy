@@ -16,12 +16,15 @@ namespace Airport
         public string DepartureCity { get; set; }
         public string DeparturePort { get; set; }
     }
-    class AirportPanel : InputUserValue<AirportPanel>
+    class AirportPanel:EnterUserData
     {
-        public AirportPanel(IPrinter<AirportPanel> getSetInfoIn) : base(getSetInfoIn)
-        {
 
+        public AirportPanel(IAirportUserData workWithUserData, ICommonUserData commonUserData) :base(commonUserData)
+        {
+            AirportPanel.workWithUserData = workWithUserData;
         }
+        private static IAirportUserData workWithUserData;
+
         public int Gate { get; set; }
         public int FlightNumber { get; set; }
         public int Terminal { get; set; }
@@ -30,21 +33,21 @@ namespace Airport
         public AirportArrival AirportArrival { get; set; }
         public AirportDeparture AirportDeparture { get; set; }
         public Airline Airline { get; set; }
-        public Passenger Passenger
-        {
-            get { return passenger; }
-            set { passenger = value; passenger.UseETest(); }
+        //public Passenger Passenger
+        //{
+        //    get { return passenger; }
+        //    set { passenger = value; passenger.UseETest(); }
 
-        }
-        private Passenger passenger;
-        private static readonly Enum unknownStatus = FlightStatus.unknown;
+        //}
+        //private Passenger passenger;
+        
         public static void Menu(List<AirportPanel> airportPanel)
         {
             //NewPassanger(airportPanel[0],new Passenger(new ConsoleGetSetInfo()));
             do
             {
                 Console.WriteLine();
-                workWithUserData.Print(@"Please,  type the number:
+                commonUserData.Print(@"Please,  type the number:
         1.  Create new flight (input all data)
         2.  Delete flight
         3.  Update some information about flight
@@ -55,7 +58,7 @@ namespace Airport
                     ");
                 try
                 {
-                    int.TryParse(workWithUserData.EnteredValueByUser(), out int b);
+                    int.TryParse(commonUserData.EnteredValueByUser(), out int b);
                     ParamMenu a = (ParamMenu)b;
 
                     Console.WriteLine();
@@ -88,82 +91,82 @@ namespace Airport
                             workWithUserData.PrintPrice(airportPanel);
                             break;
                         default:
-                            workWithUserData.PrintUserUncorrectInput("Exit. Not found option");
+                            commonUserData.PrintUserUncorrectInput("Exit. Not found option");
                             break;
                     }
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    workWithUserData.PrintUserUncorrectInput("Not found flight for entered value");
+                    commonUserData.PrintUserUncorrectInput("Not found flight for entered value");
                 }
                 catch (Exception ex)
                 {
-                    workWithUserData.Print(ex.Message);
+                    commonUserData.Print(ex.Message);
                 }
                 finally
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    workWithUserData.Print("Press Spacebar to exit; press any key to continue");
+                    commonUserData.Print("Press Spacebar to exit; press any key to continue");
                     Console.ResetColor();
                 }
             } while (Console.ReadKey().Key != ConsoleKey.Spacebar);
         }
         private static AirportPanel CreateNewFlight()
         {
-            workWithUserData.Print("Adding new flight");
-            AirportPanel flight = new AirportPanel(new ConsoleWorkingOnUserData<AirportPanel>());
+            commonUserData.Print("Adding new flight");
+            AirportPanel flight = new AirportPanel(new ConsoleAirportUserData(), new ConsoleCommonUserData());
             AirportArrival airportArrival = new AirportArrival();
             AirportDeparture airportDeparture = new AirportDeparture();
             Airline airline = new Airline();
 
-            workWithUserData.Print("Enter airline: ");
-            airline.AirlineName = workWithUserData.EnteredValueByUser();
+            commonUserData.Print("Enter airline: ");
+            airline.AirlineName = commonUserData.EnteredValueByUser();
 
 
             foreach (var item in Enum.GetValues(typeof(AirlineClass)))
             {
-                workWithUserData.Print($"Enter price for {item} class: ");
+                commonUserData.Print($"Enter price for {item} class: ");
                 EnteredValueByUser(out int price);
                 airline.PriceOfAirlineClass.Add((AirlineClass)item, price);
             }
 
-            workWithUserData.Print("Enter flight number: ");
+            commonUserData.Print("Enter flight number: ");
             EnteredValueByUser(out int flightNumber);
             flight.FlightNumber = flightNumber;
 
-            workWithUserData.Print("Choose status for adding: ");
+            commonUserData.Print("Choose status for adding: ");
             flight.FlightStatus = NewStatus(flight);
 
-            workWithUserData.Print("Enter number of gate: ");
+            commonUserData.Print("Enter number of gate: ");
             EnteredValueByUser(out int gate);
             flight.Gate = gate;
 
-            workWithUserData.Print("Enter Terminal: ");
+            commonUserData.Print("Enter Terminal: ");
             EnteredValueByUser(out int terminal);
             flight.Terminal = terminal;
 
-            workWithUserData.Print("Choose emergency information for adding: ");
+            commonUserData.Print("Choose emergency information for adding: ");
             flight.EmergencyInformation = NewEmergencyInformation(flight);
 
-            workWithUserData.Print("Enter arrival city: ");
-            airportArrival.ArrivalCity = workWithUserData.EnteredValueByUser();
+            commonUserData.Print("Enter arrival city: ");
+            airportArrival.ArrivalCity = commonUserData.EnteredValueByUser();
 
-            workWithUserData.Print("Enter arrival date and time: ");
+            commonUserData.Print("Enter arrival date and time: ");
             EnteredValueByUser(out DateTime arrivalDate);
             airportArrival.ArrivalDate = arrivalDate;
 
-            workWithUserData.Print("Enter arrival port: ");
-            airportArrival.ArrivalPort = workWithUserData.EnteredValueByUser();
+            commonUserData.Print("Enter arrival port: ");
+            airportArrival.ArrivalPort = commonUserData.EnteredValueByUser();
 
-            workWithUserData.Print("Enter departure city: ");
-            airportDeparture.DepartureCity = workWithUserData.EnteredValueByUser();
+            commonUserData.Print("Enter departure city: ");
+            airportDeparture.DepartureCity = commonUserData.EnteredValueByUser();
 
-            workWithUserData.Print("Enter departure date and time: ");
+            commonUserData.Print("Enter departure date and time: ");
             EnteredValueByUser(out DateTime departureDate);
             airportDeparture.DepartureDate = departureDate;
 
-            workWithUserData.Print("Enter departure port: ");
-            airportDeparture.DeparturePort = workWithUserData.EnteredValueByUser();
+            commonUserData.Print("Enter departure port: ");
+            airportDeparture.DeparturePort = commonUserData.EnteredValueByUser();
 
             flight.AirportArrival = airportArrival;
             flight.AirportDeparture = airportDeparture;
@@ -175,19 +178,19 @@ namespace Airport
         {
             for (int i = 0; i < airportPanel.Count; i++)
             {
-                workWithUserData.Print($@"        {i + 1}.  Flight: {airportPanel[i].FlightNumber}");
+                commonUserData.Print($@"        {i + 1}.  Flight: {airportPanel[i].FlightNumber}");
             }
         }
         private static int DeleteFlight(List<AirportPanel> airportPanel)
         {
-            workWithUserData.Print("Choose schedule for delete:");
+            commonUserData.Print("Choose schedule for delete:");
             PrintFlights(airportPanel);
             EnteredValueByUser(out int input);
             return input - 1;
         }
         private static void UpdateFlightsInformation(List<AirportPanel> airportPanel)
         {
-            workWithUserData.Print("Choose schedule for update:");
+            commonUserData.Print("Choose schedule for update:");
             PrintFlights(airportPanel);
             EnteredValueByUser(out int a);
             AirportArrival airportArrival = airportPanel[a - 1].AirportArrival;
@@ -195,7 +198,7 @@ namespace Airport
             Airline airline = airportPanel[a - 1].Airline;
 
             Console.WriteLine();
-            workWithUserData.Print(@"What do you want to update?
+            commonUserData.Print(@"What do you want to update?
         1.  Number of gate
         2.  Flight number
         3.  Airline
@@ -211,39 +214,39 @@ namespace Airport
         13. Price
                     ");
 
-            int.TryParse(workWithUserData.EnteredValueByUser(), out int param);
+            int.TryParse(commonUserData.EnteredValueByUser(), out int param);
             ParamUpdate b = (ParamUpdate)param;
             switch (b)
             {
                 case ParamUpdate.NumberOfGate:
-                    workWithUserData.Print("Enter new number of gate: ");
+                    commonUserData.Print("Enter new number of gate: ");
                     EnteredValueByUser(out int gate);
                     airportPanel[a - 1].Gate = gate;
                     Console.WriteLine();
                     break;
 
                 case ParamUpdate.FlightNumber:
-                    workWithUserData.Print("Enter new flight number: ");
+                    commonUserData.Print("Enter new flight number: ");
                     EnteredValueByUser(out int flightNumber);
                     airportPanel[a - 1].FlightNumber = flightNumber;
                     Console.WriteLine();
                     break;
 
                 case ParamUpdate.Airline:
-                    workWithUserData.Print("Enter new airline: ");
-                    airline.AirlineName = workWithUserData.EnteredValueByUser();
+                    commonUserData.Print("Enter new airline: ");
+                    airline.AirlineName = commonUserData.EnteredValueByUser();
                     airportPanel[a - 1].Airline = airline;
                     Console.WriteLine();
                     break;
 
                 case ParamUpdate.Price:
                     {
-                        workWithUserData.Print("Enter class for update price: ");
+                        commonUserData.Print("Enter class for update price: ");
                         PrintEnum(typeof(AirlineClass));
                         EnteredValueByUser(out int type);
                         AirlineClass typeEntered = (AirlineClass)(--type);
                        
-                        workWithUserData.Print("Enter price: ");
+                        commonUserData.Print("Enter price: ");
                         EnteredValueByUser(out int price);
 
                         switch (typeEntered)
@@ -255,7 +258,7 @@ namespace Airport
                                 airline.PriceOfAirlineClass[AirlineClass.econom] = price;
                                 break;
                             default:
-                                workWithUserData.PrintUserUncorrectInput("Exit. Not found option");
+                                commonUserData.PrintUserUncorrectInput("Exit. Not found option");
                                 break;
                         }
                         airportPanel[a - 1].Airline = airline;
@@ -264,24 +267,24 @@ namespace Airport
                     }
 
                 case ParamUpdate.Terminal:
-                    workWithUserData.Print("Enter new terminal: ");
+                    commonUserData.Print("Enter new terminal: ");
                     EnteredValueByUser(out int terminal);
                     airportPanel[a - 1].Terminal = terminal;
                     Console.WriteLine();
                     break;
 
                 case ParamUpdate.FlightStatus:
-                    workWithUserData.Print("Choose new status: ");
+                    commonUserData.Print("Choose new status: ");
                     airportPanel[a - 1].FlightStatus = NewStatus(airportPanel[a - 1]);
                     break;
 
                 case ParamUpdate.EmergencyInformation:
-                    workWithUserData.Print("Choose new emergency information: ");
+                    commonUserData.Print("Choose new emergency information: ");
                     airportPanel[a - 1].EmergencyInformation = NewEmergencyInformation(airportPanel[a - 1]);
                     break;
 
                 case ParamUpdate.DateOfArrive:
-                    workWithUserData.Print("Enter new arrival date and time: ");
+                    commonUserData.Print("Enter new arrival date and time: ");
                     EnteredValueByUser(out DateTime arrivalDate);
                     airportArrival.ArrivalDate = arrivalDate;
                     airportPanel[a - 1].AirportArrival = airportArrival;
@@ -289,21 +292,21 @@ namespace Airport
                     break;
 
                 case ParamUpdate.ArrivalCity:
-                    workWithUserData.Print("Enter new arrival city: ");
-                    airportArrival.ArrivalCity = workWithUserData.EnteredValueByUser();
+                    commonUserData.Print("Enter new arrival city: ");
+                    airportArrival.ArrivalCity = commonUserData.EnteredValueByUser();
                     airportPanel[a - 1].AirportArrival = airportArrival;
                     Console.WriteLine();
                     break;
 
                 case ParamUpdate.ArrivalPort:
-                    workWithUserData.Print("Enter new arrival port: ");
-                    airportArrival.ArrivalPort = workWithUserData.EnteredValueByUser();
+                    commonUserData.Print("Enter new arrival port: ");
+                    airportArrival.ArrivalPort = commonUserData.EnteredValueByUser();
                     airportPanel[a - 1].AirportArrival = airportArrival;
                     Console.WriteLine();
                     break;
 
                 case ParamUpdate.DateOfDeparture:
-                    workWithUserData.Print("Enter new departure date and time: ");
+                    commonUserData.Print("Enter new departure date and time: ");
                     EnteredValueByUser(out DateTime departureDate);
                     airportDeparture.DepartureDate = departureDate;
                     airportPanel[a - 1].AirportDeparture = airportDeparture;
@@ -311,21 +314,21 @@ namespace Airport
                     break;
 
                 case ParamUpdate.DepartureCity:
-                    workWithUserData.Print("Enter new departure city: ");
-                    airportDeparture.DepartureCity = workWithUserData.EnteredValueByUser();
+                    commonUserData.Print("Enter new departure city: ");
+                    airportDeparture.DepartureCity = commonUserData.EnteredValueByUser();
                     airportPanel[a - 1].AirportDeparture = airportDeparture;
                     Console.WriteLine();
                     break;
 
                 case ParamUpdate.DeparturePort:
-                    workWithUserData.Print("Enter new departure port: ");
-                    airportDeparture.DeparturePort = workWithUserData.EnteredValueByUser();
+                    commonUserData.Print("Enter new departure port: ");
+                    airportDeparture.DeparturePort = commonUserData.EnteredValueByUser();
                     airportPanel[a - 1].AirportDeparture = airportDeparture;
                     Console.WriteLine();
                     break;
 
                 default:
-                    workWithUserData.PrintUserUncorrectInput("Exit. Not found option");
+                    commonUserData.PrintUserUncorrectInput("Exit. Not found option");
                     break;
             }
         }
@@ -344,10 +347,10 @@ namespace Airport
             Func<AirportPanel, bool> compare;
             string[] parametrs = { "Flight number", "Date and time for arriaval", "Arrival port", "Departure port",
                                         "The nearest (1 hour) flight (time to)", "The nearest (1 hour) flight (time from)", "Price" };
-            workWithUserData.Print("Choose parametr, which you want to use for search: ");
+            commonUserData.Print("Choose parametr, which you want to use for search: ");
             for (int i = 0; i < parametrs.Length; i++)
             {
-                workWithUserData.Print($"       {i + 1}.  {parametrs[i]}");
+                commonUserData.Print($"       {i + 1}.  {parametrs[i]}");
             }
             EnteredValueByUser(out int searchParamNumber);
             ParamForSearch searchParam = (ParamForSearch)searchParamNumber;
@@ -355,14 +358,14 @@ namespace Airport
             {
                 case ParamForSearch.flightNumber:
                     {
-                        workWithUserData.Print($"Enter {parametrs[searchParamNumber - 1].ToLower()}: ");
+                        commonUserData.Print($"Enter {parametrs[searchParamNumber - 1].ToLower()}: ");
                         EnteredValueByUser(out int searchFlightNumber);
                         SetSearchParametr(airportPanel, compare = (flight) => flight.FlightNumber == searchFlightNumber);
                         break;
                     }
                 case ParamForSearch.dataTimeOfarrival:
                     {
-                        workWithUserData.Print($"Enter {parametrs[searchParamNumber - 1].ToLower()}: ");
+                        commonUserData.Print($"Enter {parametrs[searchParamNumber - 1].ToLower()}: ");
                         EnteredValueByUser(out DateTime searchArrivalTime);
                         SetSearchParametr(airportPanel, compare = (flight) => flight.AirportArrival.ArrivalDate.Date == searchArrivalTime.Date &&
                                 (int)flight.AirportArrival.ArrivalDate.TimeOfDay.TotalSeconds == (int)searchArrivalTime.TimeOfDay.TotalSeconds);
@@ -370,15 +373,15 @@ namespace Airport
                     }
                 case ParamForSearch.arrivalPort:
                     {
-                        workWithUserData.Print($"Enter {parametrs[searchParamNumber - 1].ToLower()}: ");
-                        string searchArrivalPort = workWithUserData.EnteredValueByUser();
+                        commonUserData.Print($"Enter {parametrs[searchParamNumber - 1].ToLower()}: ");
+                        string searchArrivalPort = commonUserData.EnteredValueByUser();
                         SetSearchParametr(airportPanel, compare = (flight) => flight.AirportArrival.ArrivalPort == searchArrivalPort);
                         break;
                     }
                 case ParamForSearch.departurePort:
                     {
-                        workWithUserData.Print($"Enter {parametrs[searchParamNumber - 1].ToLower()}: ");
-                        string searchDeparturePort = workWithUserData.EnteredValueByUser();
+                        commonUserData.Print($"Enter {parametrs[searchParamNumber - 1].ToLower()}: ");
+                        string searchDeparturePort = commonUserData.EnteredValueByUser();
                         SetSearchParametr(airportPanel, compare = (flight) => flight.AirportDeparture.DeparturePort == searchDeparturePort);
                         break;
                     }
@@ -396,14 +399,14 @@ namespace Airport
                     }
                 case ParamForSearch.price:
                     {
-                        workWithUserData.Print($"Enter {parametrs[searchParamNumber - 1].ToLower()}: ");
+                        commonUserData.Print($"Enter {parametrs[searchParamNumber - 1].ToLower()}: ");
                         EnteredValueByUser(out int price);
                         SetSearchParametr(airportPanel, compare = (flight) => flight.Airline.PriceOfAirlineClass[AirlineClass.econom] == price);
                         SetSearchParametr(airportPanel, compare = (flight) => flight.Airline.PriceOfAirlineClass[AirlineClass.bussines] == price);
                         break;
                     }
                 default:
-                    workWithUserData.PrintUserUncorrectInput("Exit. Not found option");
+                    commonUserData.PrintUserUncorrectInput("Exit. Not found option");
                     break;
             }
         }
@@ -416,25 +419,11 @@ namespace Airport
         }
         private static void PrintEmergencyInformation(List<AirportPanel> airportPanel)
         {
-            workWithUserData.Print("Where do you want to find out about an emergency?");
+            commonUserData.Print("Where do you want to find out about an emergency?");
             PrintFlights(airportPanel);
             EnteredValueByUser(out int a);
             Console.WriteLine();
             workWithUserData.PrintEmerganceInformation(airportPanel[a - 1]);
-        }
-        private static void PrintEnum(Type t)
-        {
-            int skipUnknownEnter = 0;
-            for (int i = 0; i < Enum.GetNames(t).Length; i++)
-            {
-                if (Enum.GetName(t, i) == unknownStatus.ToString())
-                {
-                    skipUnknownEnter++;
-                    continue;
-                }
-
-                workWithUserData.Print($@"           {i + 1 - skipUnknownEnter}. {Enum.GetName(t, i)}");
-            }
         }
 
         private static EmergencyInformation check(AirportPanel flight, Func<int, bool> isUnknown)
@@ -445,7 +434,7 @@ namespace Airport
                 emergencyInformation += 1;
             if (!Enum.IsDefined(typeof(EmergencyInformation), emergencyInformation - 1))
             {
-                workWithUserData.PrintUserUncorrectInput("Not found option");
+                commonUserData.PrintUserUncorrectInput("Not found option");
                 return flight.EmergencyInformation;
             }
 
@@ -454,7 +443,7 @@ namespace Airport
 
         private static EmergencyInformation NewEmergencyInformation(AirportPanel flight)
         {
-             return check(flight, x => x > (int)EmergencyInformation.unknown)
+            return check(flight, x => x > (int)EmergencyInformation.unknown);
         }
 
         private static FlightStatus NewStatus(AirportPanel flight)
@@ -465,7 +454,7 @@ namespace Airport
                 flightStatus += 1;
             if (!Enum.IsDefined(typeof(FlightStatus), flightStatus - 1))
             {
-                workWithUserData.PrintUserUncorrectInput("Not found option");
+                commonUserData.PrintUserUncorrectInput("Not found option");
                 return flight.FlightStatus;
             }
 
@@ -473,7 +462,7 @@ namespace Airport
         }
         private static void NewPassanger(AirportPanel flight, Passenger passenger)
         {
-            flight.Passenger = passenger;
+            //flight.Passenger = passenger;
         }
         private static void Sort(ref List<AirportPanel> airportPanel, ParamForSearch flightPlace)
         {
@@ -483,10 +472,10 @@ namespace Airport
         }
         private static void NearestFlight(List<AirportPanel> airportPanel, ParamForSearch flightPlace)
         {
-            workWithUserData.Print($"Enter port: ");
-            string enteredPort = workWithUserData.EnteredValueByUser();
+            commonUserData.Print($"Enter port: ");
+            string enteredPort = commonUserData.EnteredValueByUser();
 
-            workWithUserData.Print($"Enter time: ");
+            commonUserData.Print($"Enter time: ");
             EnteredValueByUser(out TimeSpan enteredTime);
 
             DateTime enteredDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day,

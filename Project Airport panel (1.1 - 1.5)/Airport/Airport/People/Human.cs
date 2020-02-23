@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Airport
 {
-    class Human: InputUserValue<Human>
+    class Human: EnterUserData
     {
-        public Human(IPrinter <Human>workWithUserData) : base(workWithUserData)
+        public Human(ICommonUserData commonUserData) : base(commonUserData)
         {
 
         }
@@ -18,31 +18,29 @@ namespace Airport
         public string Passport { get; set; }
         public DateTime DateOfBirthday { get; set; }
         public string Sex { get; set; }
-        public Human CreatePeople()
+        public void CreatePeople(string people)
         {
-            workWithUserData.Print("Adding new passanger");
-            Human human = new Human(new ConsoleWorkingOnUserData<Human>());
 
-            workWithUserData.Print("Enter : first name passenger");
-            human.FirstNamePassenger = workWithUserData.EnteredValueByUser();
+            commonUserData.Print($"Adding new {people}");
 
-            workWithUserData.Print("Enter : second name passenger");
-            human.SecondNamePassenger = workWithUserData.EnteredValueByUser();
+            commonUserData.Print($"Enter: first name {people}");
+            FirstNamePassenger = commonUserData.EnteredValueByUser();
 
-            workWithUserData.Print("Enter : nationality");
-            human.Nationality = workWithUserData.EnteredValueByUser();
+            commonUserData.Print($"Enter: second name {people}");
+            SecondNamePassenger = commonUserData.EnteredValueByUser();
 
-            workWithUserData.Print("Enter : date of birthday");
+            commonUserData.Print("Enter: nationality");
+            Nationality = commonUserData.EnteredValueByUser();
+
+            commonUserData.Print("Enter : date of birthday");
             EnteredValueByUser(out DateTime dateOfBirthday);
-            human.DateOfBirthday = dateOfBirthday;
+            DateOfBirthday = dateOfBirthday;
 
-            workWithUserData.Print("Enter : passport");
-            human.Passport = workWithUserData.EnteredValueByUser();
+            commonUserData.Print("Enter: passport");
+            Passport = commonUserData.EnteredValueByUser();
 
-            workWithUserData.Print("Enter : sex");
-            human.Sex = workWithUserData.EnteredValueByUser();
-
-            return human;
+            commonUserData.Print("Enter: sex");
+            Sex = commonUserData.EnteredValueByUser();
         }
     }
 }
