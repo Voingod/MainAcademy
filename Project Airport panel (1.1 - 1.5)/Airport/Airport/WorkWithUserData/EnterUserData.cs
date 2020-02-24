@@ -1,31 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Airport
 {
     abstract class EnterUserData
     {
+        public static ICommonUserData commonUserData;
+        private static readonly Enum unknownStatus = FlightStatus.unknown;
         public EnterUserData(ICommonUserData commonUserData)
         {
             EnterUserData.commonUserData = commonUserData;
         }
-        public static ICommonUserData commonUserData;
-        public static void EnteredValueByUser(out int param)
+
+        public static void EnteredValueByUser<T>(out T param)
         {
-            if (!int.TryParse(commonUserData.EnteredValueByUser(), out param))
-                commonUserData.PrintUserUncorrectInput($"Uncorrect entered parameter");
+            try
+            {
+                var converter = TypeDescriptor.GetConverter(typeof(T));
+                if (converter != null)
+                {
+                    param = (T)converter.ConvertFromString(commonUserData.EnteredValueByUser());
+                    return;
+                }
+                param = default;
+            }
+            catch (Exception ex)
+            {
+                //Console.WriteLine(ex.InnerException); 
+                commonUserData.PrintUserUncorrectInput("Uncorrect entered parameter");
+                param = default;
+            }
         }
-        public static void EnteredValueByUser(out DateTime param)
-        {
-            if (!DateTime.TryParse(commonUserData.EnteredValueByUser(), out param))
-                commonUserData.PrintUserUncorrectInput($"Uncorrect entered parameter");
-        }
-        public static void EnteredValueByUser(out TimeSpan param)
-        {
-            if (!TimeSpan.TryParse(commonUserData.EnteredValueByUser(), out param))
-                commonUserData.PrintUserUncorrectInput($"Uncorrect entered parameter");
-        }
-        private static readonly Enum unknownStatus = FlightStatus.unknown;
+
         public static void PrintEnum(Type t)
         {
             int skipUnknownEnter = 0;

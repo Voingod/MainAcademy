@@ -99,10 +99,6 @@ namespace Airport
                 {
                     commonUserData.PrintUserUncorrectInput("Not found flight for entered value");
                 }
-                catch (Exception ex)
-                {
-                    commonUserData.Print(ex.Message);
-                }
                 finally
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
@@ -426,40 +422,29 @@ namespace Airport
             workWithUserData.PrintEmerganceInformation(airportPanel[a - 1]);
         }
 
-        private static EmergencyInformation check(AirportPanel flight, Func<int, bool> isUnknown)
+        private static TEnum Check<TEnum>(TEnum retval, Func<int, bool> isUnknown)
         {
-            PrintEnum(typeof(EmergencyInformation));
-            EnteredValueByUser(out int emergencyInformation);
-            if (isUnknown(emergencyInformation))
-                emergencyInformation += 1;
-            if (!Enum.IsDefined(typeof(EmergencyInformation), emergencyInformation - 1))
+            PrintEnum(typeof(TEnum));
+            EnteredValueByUser(out int enumName);
+            if (isUnknown(enumName))
+                enumName++;
+            if (!Enum.IsDefined(typeof(TEnum), enumName - 1))
             {
                 commonUserData.PrintUserUncorrectInput("Not found option");
-                return flight.EmergencyInformation;
+                return retval;
             }
-
-            return (EmergencyInformation)(emergencyInformation - 1);
+            return (TEnum)Enum.Parse(typeof(TEnum), (enumName - 1).ToString());
         }
-
         private static EmergencyInformation NewEmergencyInformation(AirportPanel flight)
         {
-            return check(flight, x => x > (int)EmergencyInformation.unknown);
+            return Check(flight.EmergencyInformation, x => x > (int)EmergencyInformation.unknown);
         }
-
         private static FlightStatus NewStatus(AirportPanel flight)
         {
-            PrintEnum(typeof(FlightStatus));
-            EnteredValueByUser(out int flightStatus);
-            if (flightStatus > (int)FlightStatus.unknown)
-                flightStatus += 1;
-            if (!Enum.IsDefined(typeof(FlightStatus), flightStatus - 1))
-            {
-                commonUserData.PrintUserUncorrectInput("Not found option");
-                return flight.FlightStatus;
-            }
-
-            return (FlightStatus)(flightStatus - 1);
+            return Check(flight.FlightStatus, x => x > (int)FlightStatus.unknown);
         }
+
+
         private static void NewPassanger(AirportPanel flight, Passenger passenger)
         {
             //flight.Passenger = passenger;

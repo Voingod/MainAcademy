@@ -13,6 +13,7 @@ namespace Airport
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(info);
+            Console.WriteLine();
             Console.ResetColor();
         }
         public void Print(string info)
