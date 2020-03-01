@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Airport
 {
-    class Human: EnterUserData
+    class Human: ProcessingUserData
     {
         public Human(ICommonUserData commonUserData) : base(commonUserData)
         {
@@ -20,7 +20,6 @@ namespace Airport
         public string Sex { get; set; }
         public void CreatePeople(string people)
         {
-
             commonUserData.Print($"Adding new {people}");
 
             commonUserData.Print($"Enter: first name {people}");
@@ -41,6 +40,13 @@ namespace Airport
 
             commonUserData.Print("Enter: sex");
             Sex = commonUserData.EnteredValueByUser();
+
+        }
+        
+        public void CreatePeople(string people, out Human human)
+        {
+            human = new Human(new ConsoleCommonUserData());
+            human.CreatePeople(people);
         }
     }
 }

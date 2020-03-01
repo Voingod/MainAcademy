@@ -8,15 +8,44 @@ namespace Airport
 {
     class Program
     {
-       public static List<AirportPanel> airportPanel = new List<AirportPanel>();
-       public static List<Passenger> passengers = new List<Passenger>();
+
         static void Main(string[] args)
+        {
+            
+            RandomInitializationAirportPanels();
+            ICommonUserData console = new ConsoleCommonUserData();
+            do
+            {
+                console.Print(@"Please,  type the number:
+        1.  Work with aeroport panel
+        2.  Work with passengers
+                    ");
+
+                int.TryParse(Console.ReadLine(), out int input);
+                switch (input)
+                {
+                    case 1:
+                        AirportPanel.Menu(Collections.airportPanel);
+                        break;
+                    case 2:
+                        Passenger.Menu(Collections.passengers, Collections.humen);
+                        break;
+                    default:
+                        console.PrintUserUncorrectInput("Uncorrect enter");
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                        console.Print("--Press Spacebar to exit;press any key to continue--");
+                        Console.WriteLine();
+                        Console.ResetColor();
+                        break;
+                }
+
+            } while (Console.ReadKey(true).Key != ConsoleKey.Spacebar);
+        }
+        static void RandomInitializationAirportPanels()
         {
             Random random = new Random();
             const int flightsCount = 10;
-            
 
-            #region InitalizationArrayForFlighting
             string[] airlineName = { "Ukraine Intl Air", "LOT", "KLM", "S7 Airlines", "Onur Air" };
 
             string[] arrivalCity = { "Rome", "Kyiv", "Bangkok", "Kingston", "London" };
@@ -64,52 +93,29 @@ namespace Airport
                 };
 
                 flight.Airline = airline;
-                airportPanel.Add(flight);
+                Collections.airportPanel.Add(flight);
 
             }
-
-            //Human passenger = new Passenger(new ConsoleAirportUserData(), new ConsoleCommonUserData());
-            //airportPanel[0].Passenger = (Passenger)passenger;
-
-            //Passenger passenger12 = new Passenger(new ConsolePassengerUserData(), new ConsoleCommonUserData());
-            //var f = (Human)passenger12;
-
-            Console.WriteLine(airportPanel[0].Airline.PriceOfAirlineClass[0]);
-            Console.WriteLine(airportPanel[1].Airline.PriceOfAirlineClass[0]);
-            Console.WriteLine(airportPanel[2].Airline.PriceOfAirlineClass[0]);
-            #endregion
-
-            do
+            Human passenger = new Passenger(new ConsolePassengerUserData(), new ConsoleCommonUserData())
             {
-                Console.WriteLine(@"Please,  type the number:
-        1.  Work with aeroport panel
-        2.  Work with passengers
-                    ");
-                int.TryParse(Console.ReadLine(), out int input);
-                switch (input)
-                {
-                    case 1:
-                        AirportPanel.Menu(airportPanel);
-                        break;
-                    case 2:
-                        Passenger.Menu(passengers);
-                        break;
-                    default:
-                        break;
-                }
-                Console.WriteLine();
-                
-                ConsoleCommonUserData console = new ConsoleCommonUserData();
-                Console.WriteLine(@"Please,  type the number:
-        1.  Work with aeroport panel
-        2.  Work with passengers
-                    ");
-                Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                console.Print("--Press Spacebar to exit;press any key to continue--");
-                Console.ResetColor();
-            } while (Console.ReadKey(true).Key != ConsoleKey.Spacebar);
-
-            Console.ReadLine();
+                DateOfBirthday = default,
+                Sex = "man",
+                FirstNamePassenger = "Petro",
+                SecondNamePassenger = "Lovan",
+                Nationality = "uk",
+                Passport = "TT45321"
+            };
+            Collections.humen.Add(passenger);
+        }
+        static void RandomInitializationHumen()
+        {
+            Random random = new Random();
+            const int humanCount = 4;
+        }
+        static void RandomInitializationPassengers()
+        {
+            Random random = new Random();
+            const int passengerCount = 10;
         }
     }
 }

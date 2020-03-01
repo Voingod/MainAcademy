@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Airport
 {
-    abstract class EnterUserData
+    abstract class ProcessingUserData
     {
         public static ICommonUserData commonUserData;
         private static readonly Enum unknownStatus = FlightStatus.unknown;
-        public EnterUserData(ICommonUserData commonUserData)
+        public ProcessingUserData(ICommonUserData commonUserData)
         {
-            EnterUserData.commonUserData = commonUserData;
+            ProcessingUserData.commonUserData = commonUserData;
         }
 
         public static void EnteredValueByUser<T>(out T param)
@@ -25,9 +24,8 @@ namespace Airport
                 }
                 param = default;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //Console.WriteLine(ex.InnerException); 
                 commonUserData.PrintUserUncorrectInput("Uncorrect entered parameter");
                 param = default;
             }

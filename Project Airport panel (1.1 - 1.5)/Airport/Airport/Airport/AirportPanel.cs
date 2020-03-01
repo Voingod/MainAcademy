@@ -16,7 +16,7 @@ namespace Airport
         public string DepartureCity { get; set; }
         public string DeparturePort { get; set; }
     }
-    class AirportPanel:EnterUserData
+    class AirportPanel:ProcessingUserData
     {
 
         public AirportPanel(IAirportUserData workWithUserData, ICommonUserData commonUserData) :base(commonUserData)
@@ -33,17 +33,9 @@ namespace Airport
         public AirportArrival AirportArrival { get; set; }
         public AirportDeparture AirportDeparture { get; set; }
         public Airline Airline { get; set; }
-        //public Passenger Passenger
-        //{
-        //    get { return passenger; }
-        //    set { passenger = value; passenger.UseETest(); }
 
-        //}
-        //private Passenger passenger;
-        
         public static void Menu(List<AirportPanel> airportPanel)
         {
-            //NewPassanger(airportPanel[0],new Passenger(new ConsoleGetSetInfo()));
             do
             {
                 Console.WriteLine();
@@ -442,12 +434,6 @@ namespace Airport
         private static FlightStatus NewStatus(AirportPanel flight)
         {
             return Check(flight.FlightStatus, x => x > (int)FlightStatus.unknown);
-        }
-
-
-        private static void NewPassanger(AirportPanel flight, Passenger passenger)
-        {
-            //flight.Passenger = passenger;
         }
         private static void Sort(ref List<AirportPanel> airportPanel, ParamForSearch flightPlace)
         {

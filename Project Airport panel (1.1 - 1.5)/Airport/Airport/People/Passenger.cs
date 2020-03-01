@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,21 +16,21 @@ namespace Airport
         }
         protected static IPassengerUserData workWithUserData;
         #region TestEvent
-        public delegate void HumanHowPassenger(AirportPanel airportPanel);
-        public event HumanHowPassenger HumanToPassenger;
-        public void UseHumanHowPassenger(AirportPanel airportPanel)
+        private delegate void HumanHowPassenger(int indexFlightNumber);
+        private event HumanHowPassenger HumanToPassenger;
+        public void UseHumanHowPassenger(int indexFlightNumber)
         {
-            HumanToPassenger?.Invoke(airportPanel);
+            HumanToPassenger?.Invoke(indexFlightNumber);
+        }
+        private void LandingPassanger(int indexFlightNumber)
+        {
+            FlightNumber = Collections.airportPanel[indexFlightNumber].FlightNumber;
+            PassangerClass = SetClass();
         }
         #endregion
         public AirlineClass PassangerClass { get; set; }
         public int FlightNumber { get; set; }
 
-        public void LandingPassanger(AirportPanel airportPanel)
-        {
-            FlightNumber = airportPanel.FlightNumber;
-            PassangerClass = SetClass();
-        }
         private AirlineClass SetClass()
         {
             commonUserData.Print($"Enter passanger`s class: ");
@@ -38,22 +39,38 @@ namespace Airport
             PassangerClass = (AirlineClass)passangerClass - 1;
             return PassangerClass;
         }
-        private static Passenger CreatPassenger(string people)
+        public static Passenger ConvertHumanToPassanger(List<Human> humen)
+        {
+            commonUserData.Print("Enter passenger for landing: ");
+            for (int i = 0; i < humen.Count; i++)
+            {
+                commonUserData.Print(i + 1 + " " + humen[i].FirstNamePassenger + " " + humen[i].SecondNamePassenger);
+            }
+            EnteredValueByUser(out int human);
+            Passenger passenger = (Passenger)humen[human - 1];
+            SetFlightAndClass(passenger);
+            return passenger;
+        }
+        private static Passenger CreatePassenger(string people)
         {
             Passenger passenger = new Passenger(new ConsolePassengerUserData(), new ConsoleCommonUserData());
             passenger.CreatePeople(people);
+            SetFlightAndClass(passenger);
+
+            return passenger;
+        }
+        private static void SetFlightAndClass(Passenger passenger)
+        {
             passenger.SetClass();
 
             commonUserData.Print($"Enter fligth for passenger: ");
 
-            for (int i = 0; i < Program.airportPanel.Count; i++)
-                commonUserData.Print($@"        {i + 1}.  Flight: {Program.airportPanel[i].FlightNumber}");
-            
+            for (int i = 0; i < Collections.airportPanel.Count; i++)
+                commonUserData.Print($@"        {i + 1}.  Flight: {Collections.airportPanel[i].FlightNumber}");
+
             EnteredValueByUser(out int flight);
-            passenger.FlightNumber = Program.airportPanel[flight - 1].FlightNumber;
+            passenger.FlightNumber = Collections.airportPanel[flight - 1].FlightNumber;
 
-
-            return passenger;
         }
         private static void PrintPassengers(List<Passenger> passengers)
         {
@@ -62,7 +79,7 @@ namespace Airport
                 workWithUserData.Print(passengers[i]);
             }
         }
-        public static void Menu(List<Passenger> passengers)
+        public static void Menu(List<Passenger> passengers, List<Human> humen)
         {
             do
             {
@@ -70,6 +87,7 @@ namespace Airport
                 commonUserData.Print(@"Please,  type the number:
         1.  Create passenger (input all data)
         2.  Output list of passenger
+        3.  Landing human to plane
 
                     ");
                 try
@@ -81,11 +99,15 @@ namespace Airport
                     switch (a)
                     {
                         case ParamMenuPassenger.createPassenger:
-                            passengers.Add(CreatPassenger("passanger"));
+                            passengers.Add(CreatePassenger("passanger"));
                             break;
 
                         case ParamMenuPassenger.outputPassenger:
                             PrintPassengers(passengers);
+                            break;
+
+                        case ParamMenuPassenger.landingHuman:
+                            passengers.Add(ConvertHumanToPassanger(humen));
                             break;
 
                         default:
