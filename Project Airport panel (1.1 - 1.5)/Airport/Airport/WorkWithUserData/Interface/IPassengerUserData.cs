@@ -4,7 +4,7 @@ namespace Airport
 {
     interface IPassengerUserData
     {
-        void Print(Passenger airport);
+        void Print(Passenger passenger);
     }
 
 }

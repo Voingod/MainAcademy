@@ -13,6 +13,8 @@ namespace Airport
         {
             
             RandomInitializationAirportPanels();
+            RandomInitializationHumen();
+            RandomInitializationPassengers();
             ICommonUserData console = new ConsoleCommonUserData();
             do
             {
@@ -21,7 +23,7 @@ namespace Airport
         2.  Work with passengers
                     ");
 
-                int.TryParse(Console.ReadLine(), out int input);
+                ProcessingUserData.EnteredValueByUser(out int input);
                 switch (input)
                 {
                     case 1:
@@ -96,6 +98,12 @@ namespace Airport
                 Collections.airportPanel.Add(flight);
 
             }
+
+        }
+        static void RandomInitializationHumen()
+        {
+            Random random = new Random();
+            const int humanCount = 4;
             Human passenger = new Passenger(new ConsolePassengerUserData(), new ConsoleCommonUserData())
             {
                 DateOfBirthday = default,
@@ -106,11 +114,6 @@ namespace Airport
                 Passport = "TT45321"
             };
             Collections.humen.Add(passenger);
-        }
-        static void RandomInitializationHumen()
-        {
-            Random random = new Random();
-            const int humanCount = 4;
         }
         static void RandomInitializationPassengers()
         {

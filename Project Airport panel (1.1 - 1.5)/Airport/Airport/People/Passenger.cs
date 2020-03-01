@@ -39,15 +39,12 @@ namespace Airport
             PassangerClass = (AirlineClass)passangerClass - 1;
             return PassangerClass;
         }
-        public static Passenger ConvertHumanToPassanger(List<Human> humen)
+        public static Passenger LandingHumanToPlane(List<Human> humen)
         {
             commonUserData.Print("Enter passenger for landing: ");
-            for (int i = 0; i < humen.Count; i++)
-            {
-                commonUserData.Print(i + 1 + " " + humen[i].FirstNamePassenger + " " + humen[i].SecondNamePassenger);
-            }
+            PrintPassangerName(humen);
             EnteredValueByUser(out int human);
-            Passenger passenger = (Passenger)humen[human - 1];
+            Passenger passenger = (Passenger)humen[human - 1].Clone();
             SetFlightAndClass(passenger);
             return passenger;
         }
@@ -79,6 +76,22 @@ namespace Airport
                 workWithUserData.Print(passengers[i]);
             }
         }
+        private static void PrintPassangerName<T>(List<T> humen) where T : Human
+        {
+            for (int i = 0; i < humen.Count; i++)
+            {
+                commonUserData.Print(i + 1 + " " + humen[i].FirstNamePassenger + " " + humen[i].SecondNamePassenger);
+            }
+        }
+        public static new void SearchInformation<T>(List<T> humen) where T: Passenger
+        {
+
+        }
+        public static new void UpdatePeopleInformation<T>(List<T> passengers) where T : Passenger
+        {
+
+        }
+
         public static void Menu(List<Passenger> passengers, List<Human> humen)
         {
             do
@@ -88,6 +101,7 @@ namespace Airport
         1.  Create passenger (input all data)
         2.  Output list of passenger
         3.  Landing human to plane
+        4.  Delete passenger
 
                     ");
                 try
@@ -107,7 +121,11 @@ namespace Airport
                             break;
 
                         case ParamMenuPassenger.landingHuman:
-                            passengers.Add(ConvertHumanToPassanger(humen));
+                            passengers.Add(LandingHumanToPlane(humen));
+                            break;
+
+                        case ParamMenuPassenger.deletePassenger:
+                            passengers.RemoveAt(DeletePeople(passengers));
                             break;
 
                         default:

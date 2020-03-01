@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Airport
 {
-    class Human: ProcessingUserData
+    class Human: ProcessingUserData,ICloneable
     {
         public Human(ICommonUserData commonUserData) : base(commonUserData)
         {
@@ -42,11 +42,38 @@ namespace Airport
             Sex = commonUserData.EnteredValueByUser();
 
         }
-        
         public void CreatePeople(string people, out Human human)
         {
             human = new Human(new ConsoleCommonUserData());
             human.CreatePeople(people);
+        }
+        public static int DeletePeople<T>(List<T> humen) where T : Human
+        {
+            commonUserData.Print("Choose pepople for delete:");
+            PrintPeople(humen);
+            EnteredValueByUser(out int input);
+            return (input - 1);
+        }
+        public static  void PrintPeople<T>(List<T> humen) where T:Human
+        {
+            for (int i = 0; i < humen.Count; i++)
+            {
+                commonUserData.Print($@"        {i + 1}.  Flight: {humen[i].FirstNamePassenger} {humen[i].SecondNamePassenger}");
+            }
+        }
+
+        public static void SearchInformation<T>(List<T> humen) where T: Human
+        {
+
+        }
+        public static void UpdatePeopleInformation<T>(List<T> humen) where T : Human
+        {
+
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
 }

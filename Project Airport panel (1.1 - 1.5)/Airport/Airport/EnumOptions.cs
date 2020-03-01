@@ -28,6 +28,6 @@
     }
     enum ParamMenuPassenger
     {
-        createPassenger = 1, outputPassenger, landingHuman
+        createPassenger = 1, outputPassenger, landingHuman, deletePassenger
     }
 }
