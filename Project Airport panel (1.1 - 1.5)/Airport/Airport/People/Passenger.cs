@@ -42,7 +42,7 @@ namespace Airport
         public static Passenger LandingHumanToPlane(List<Human> humen)
         {
             commonUserData.Print("Enter passenger for landing: ");
-            PrintPassangerName(humen);
+            PrintPeopleName(humen);
             EnteredValueByUser(out int human);
             Passenger passenger = (Passenger)humen[human - 1].Clone();
             SetFlightAndClass(passenger);
@@ -76,22 +76,52 @@ namespace Airport
                 workWithUserData.Print(passengers[i]);
             }
         }
-        private static void PrintPassangerName<T>(List<T> humen) where T : Human
+        public static new void SearchInformation<T>(List<T> passengers, SetSearchParametr<T> setSearchParametr) where T : Passenger
         {
-            for (int i = 0; i < humen.Count; i++)
+
+            var searchInformation = Human.SearchInformation(passengers, setSearchParametr);
+            if (searchInformation.Item1)
+                return;
+
+            Func<T, bool> compare;
+            switch ((ParamHumanForSearch)searchInformation.Item2)
             {
-                commonUserData.Print(i + 1 + " " + humen[i].FirstNamePassenger + " " + humen[i].SecondNamePassenger);
+                case ParamHumanForSearch.Price:
+                    commonUserData.Print($"Enter {parametrs[searchInformation.Item2 - 1].ToLower()}: ");
+                    var bb = Collections.airportPanel.Where(c => c.Airline.PriceOfAirlineClass.Values.Where(z => z == 0) == new int[0]);
+                    //setSearchParametr?.Invoke(passengers, compare = (passenger) => passenger.PassangerClass. == searchFlightNumber);
+                    break;
+
+                case ParamHumanForSearch.FlightNumber:
+                    commonUserData.Print($"Enter {parametrs[searchInformation.Item2 - 1].ToLower()}: ");
+                    EnteredValueByUser(out int searchFlightNumber);
+                    setSearchParametr?.Invoke(passengers, compare = (passenger) => passenger.FlightNumber == searchFlightNumber);
+                    break;
+
             }
-        }
-        public static new void SearchInformation<T>(List<T> humen) where T: Passenger
-        {
 
         }
         public static new void UpdatePeopleInformation<T>(List<T> passengers) where T : Passenger
         {
-
+            throw new NotImplementedException();
         }
-
+        public static new void SearchParametr<T>(List<T> humen, Func<T, bool> searchParametr) where T : Passenger
+        {
+            foreach (var human in humen)
+            {
+                if (searchParametr(human))
+                {
+                    workWithUserData.Print(human);
+                }
+            }
+        }
+        static Passenger()
+        {
+            setSearchParametr += SearchParametr;
+            string[] parametersPassenger = { "Price", "Flight number" };
+            parametrs.AddRange(parametersPassenger);
+        }
+        static private readonly SetSearchParametr<Passenger> setSearchParametr;
         public static void Menu(List<Passenger> passengers, List<Human> humen)
         {
             do
@@ -102,6 +132,7 @@ namespace Airport
         2.  Output list of passenger
         3.  Landing human to plane
         4.  Delete passenger
+        5.  Search passenger by entered info
 
                     ");
                 try
@@ -126,6 +157,10 @@ namespace Airport
 
                         case ParamMenuPassenger.deletePassenger:
                             passengers.RemoveAt(DeletePeople(passengers));
+                            break;
+
+                        case ParamMenuPassenger.searchPassenger:
+                            SearchInformation(passengers, setSearchParametr);
                             break;
 
                         default:
