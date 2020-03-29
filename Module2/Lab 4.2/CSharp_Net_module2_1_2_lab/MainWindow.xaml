@@ -1,0 +1,50 @@
+﻿<Window x:Class="CSharp_Net_module2_1_2_lab.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="900">
+   
+    <Window.Background>
+        <ImageBrush ImageSource="D:\Projects\Main Academy\CSharp_Net_module2_1_2_lab\CSharp_Net_module2_1_2_lab\images\img_lights.jpg"></ImageBrush>
+    </Window.Background>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        
+        <Button Grid.Row="0" 
+                x:Name="btnShowOtherWindow" 
+                FontWeight="Bold"
+                Content="Open window" Height="100" 
+                Click="btnShowOtherWindow_Click"
+                Grid.ColumnSpan="3"
+                />
+        <WrapPanel Grid.Row="1" x:Name="wp" ItemHeight="100" ItemWidth="100" Orientation="Horizontal"  HorizontalAlignment="Center" Grid.ColumnSpan="3">
+            <TextBlock x:Name="tbMulti" Foreground="Blue" Text="Multi" TextAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock x:Name="tbColor" Foreground="Red" Text="Color" TextAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock x:Name="tbButton" Text="Button" TextAlignment="Center" VerticalAlignment="Center"/>
+        </WrapPanel>
+
+        <Button Grid.Row="2" x:Name="btnUpdate" FontWeight="Bold" Content="Update"/>
+        <DataGrid x:Name="dgStudents" AutoGenerateColumns="False"
+                  ItemsSource="{Binding}"
+                  ColumnWidth="*"
+                  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="FirstName"  Binding="{Binding FirstName}" Width="75"/>
+                <DataGridTextColumn Header="SecondName"  Binding="{Binding SecondName}" Width="85"/>
+                <DataGridTextColumn Header="Email"  Binding="{Binding Email}"/>
+                <DataGridTextColumn Header="PhoneNumber"  Binding="{Binding PhoneNumber}"/>
+                <DataGridTextColumn Header="Department"  Binding="{Binding Department}" Width="75"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

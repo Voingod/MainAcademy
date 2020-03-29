@@ -88,7 +88,29 @@ namespace Airport
             {
                 case ParamHumanForSearch.Price:
                     commonUserData.Print($"Enter {parametrs[searchInformation.Item2 - 1].ToLower()}: ");
-                    var bb = Collections.airportPanel.Where(c => c.Airline.PriceOfAirlineClass.Values.Where(z => z == 0) == new int[0]);
+                    EnteredValueByUser(out int searchPrice);
+
+                    var gg = passengers.Distinct(new PartialComparer()).Select(p => p.FlightNumber).ToArray();
+                    //for (int i = 0; i < gg.Length; i++)
+                    //{
+                    //    gg[i];
+                    //}
+
+                    foreach (var item3 in gg)
+                    {
+                        foreach (var item in Collections.airportPanel)
+                        {
+                            foreach (KeyValuePair<AirlineClass, int> item2 in item.Airline.PriceOfAirlineClass)
+                            {
+                                setSearchParametr?.Invoke(passengers, compare = (passenger) => passenger.PassangerClass. == searchFlightNumber);
+                                item2.Value;
+                            }
+                        }
+                    }
+
+                    //var tt = Collections.airportPanel.Select(ai => ai.Airline.PriceOfAirlineClass.Select(hg => hg.Value));
+
+                    //var bb = Collections.airportPanel.Where(c => c.Airline.PriceOfAirlineClass.Values.Where(z => z == searchPrice) == gg).ToList();
                     //setSearchParametr?.Invoke(passengers, compare = (passenger) => passenger.PassangerClass. == searchFlightNumber);
                     break;
 
@@ -187,4 +209,9 @@ namespace Airport
 
     }
 
+    class PartialComparer : IEqualityComparer<Passenger>
+    {
+        public bool Equals(Passenger x, Passenger y) => x.FlightNumber.Equals(y.FlightNumber);
+        public int GetHashCode(Passenger obj) => obj.FlightNumber.GetHashCode();
+    }
 }
