@@ -1,0 +1,51 @@
+﻿@model IEnumerable<CSharp_Net_module3_1_1_lab.Models.BookModels>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "AddBook")
+</p>
+<table class="table">
+    <tr>
+        <th>Check</th>
+        <th>@Html.DisplayNameFor(model => model.BookName)</th>
+        <th>@Html.DisplayNameFor(model => model.Author)</th>
+        <th>@Html.DisplayNameFor(model => model.Edition)</th>
+        <th>@Html.DisplayNameFor(model => model.Publishing)</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in ViewBag.Books)
+    {
+        <tr>
+            <td>
+                <input name="SelectedBook" type="radio" value="@item.Id">
+                @*@Html.RadioButtonFor(item.SelectedBook, item.Id)@item.Name*@
+            </td>
+            <td>@item.BookName</td>
+            <td>@item.Author</td>
+            <td>@item.Edition</td>
+            <td>@item.Publishing</td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+
+            </td>
+        </tr>
+    }
+
+</table>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        @using (Html.BeginForm("UpdateBook", "Book", FormMethod.Post))
+        {
+            <input type="submit" value="Update" class="btn btn-default" name="update"/>
+        }
+    </div>
+</div>
