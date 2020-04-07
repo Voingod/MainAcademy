@@ -13,9 +13,6 @@ namespace CSharp_Net_module3_1_1_lab.Models
         public string Author { get; set; }
         public string Edition { get; set; }
         public string Publishing { get; set; }
-        public int SelectedBook { get; set; }
-
-
 
     }
 }

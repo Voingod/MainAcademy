@@ -27,7 +27,7 @@ namespace CSharp_Net_module3_1_1_lab.Controllers
             // 10) Add parameter of View(); it must be the list of books
             return View();
         }
-      
+
         [HttpPost]
         public ActionResult UpdateBook(BookModels bookModels, FormCollection formCollection)
         {
@@ -55,6 +55,16 @@ namespace CSharp_Net_module3_1_1_lab.Controllers
             ViewBag.Books = books.books;
             AddBook();
             // 14) Invoke AddBook() method of book list
+            return RedirectToAction("Index");
+        }
+        public ActionResult Edit()
+        {
+            return View();
+        }        
+        [HttpPost]
+        public ActionResult Edit(BookModels bookModels)
+        {
+            books.books[int.Parse(RouteData.Values["id"].ToString())] = bookModels;
             return RedirectToAction("Index");
         }
     }
