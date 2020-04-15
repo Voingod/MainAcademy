@@ -16,16 +16,16 @@ namespace CSharp_Net_module3_1_1_lab.Models
             // 3) Add several books to list
             books.Add(new BookModels
             {
-                Id = 0,
+                Id = books.Count,
                 Author = "Gogol",
                 BookName = "Death Soul",
                 Edition = "234.n",
                 Publishing = "Moscow Print"
-            });
+            }) ;
 
             books.Add(new BookModels
             {
-                Id = 1,
+                Id = books.Count,
                 Author = "Jack London",
                 BookName = "Martin Iden",
                 Edition = "43.t",
@@ -34,7 +34,7 @@ namespace CSharp_Net_module3_1_1_lab.Models
 
             books.Add(new BookModels
             {
-                Id = 2,
+                Id = books.Count,
                 Author = "Daniel Keyes",
                 BookName = "Flowers for Algernon",
                 Edition = "uu.12",
@@ -46,8 +46,9 @@ namespace CSharp_Net_module3_1_1_lab.Models
         public void CreateBook(BookModels bookModels)
         {
             // 5) Add new book to list
-            bookModels.Id= books.Max(m => m.Id) + 1;
+            bookModels.Id = books.Count;
             books.Add(bookModels);
+            
 
         }
         // 6) Change parameters and return type of UpdateBook()

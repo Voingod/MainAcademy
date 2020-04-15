@@ -9,43 +9,42 @@
 <p>
     @Html.ActionLink("Create New", "AddBook")
 </p>
-<table class="table">
-    <tr>
-        <th>Check</th>
-        <th>@Html.DisplayNameFor(model => model.BookName)</th>
-        <th>@Html.DisplayNameFor(model => model.Author)</th>
-        <th>@Html.DisplayNameFor(model => model.Edition)</th>
-        <th>@Html.DisplayNameFor(model => model.Publishing)</th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in ViewBag.Books)
-    {
+@using (Html.BeginForm("UpdateBook", "Book", FormMethod.Post))
+{
+    <table class="table">
         <tr>
-            <td>
-                <input name="SelectedBook" type="radio" value="@item.Id">
-                @*@Html.RadioButtonFor(item.SelectedBook, item.Id)@item.Name*@
-            </td>
-            <td>@item.BookName</td>
-            <td>@item.Author</td>
-            <td>@item.Edition</td>
-            <td>@item.Publishing</td>
-
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-
-            </td>
+            <th>Check</th>
+            <th>@Html.DisplayNameFor(model => model.BookName)</th>
+            <th>@Html.DisplayNameFor(model => model.Author)</th>
+            <th>@Html.DisplayNameFor(model => model.Edition)</th>
+            <th>@Html.DisplayNameFor(model => model.Publishing)</th>
+            <th></th>
         </tr>
-    }
 
-</table>
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        @using (Html.BeginForm("UpdateBook", "Book", FormMethod.Post))
+        @foreach (var item in ViewBag.Books)
         {
-            <input type="submit" value="Update" class="btn btn-default" name="update"/>
+            <tr>
+                <td><input name="bookId" type="radio" value="@ViewBag.Books.IndexOf(item)" /></td>
+                <td>@item.BookName</td>
+                <td>@item.Author</td>
+                <td>@item.Edition</td>
+                <td>@item.Publishing</td>
+
+                <td>
+
+                    @Html.ActionLink("Edit", "Edit", new { id = ViewBag.Books.IndexOf(item) }) |
+                    @Html.ActionLink("Details", "Details", new { id = ViewBag.Books.IndexOf(item) }) |
+                    @Html.ActionLink("Delete", "Delete", "Book", new { id = ViewBag.Books.IndexOf(item) },FormMethod.Post)
+                   
+                </td>
+            </tr>
         }
+
+    </table>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Update" class="btn btn-default" name="update" />
+        </div>
     </div>
-</div>
+}
+

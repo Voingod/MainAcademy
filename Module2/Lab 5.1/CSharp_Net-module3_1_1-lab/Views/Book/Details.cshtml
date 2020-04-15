@@ -1,0 +1,37 @@
+﻿@model CSharp_Net_module3_1_1_lab.Models.BookModels
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<style>
+    dd 
+    {
+        font-style: italic; /* Курсивное начертание текста */
+        margin-left:1em
+    }
+    dt {margin-top: 0.45em; /* Отступ сверху */}
+</style>
+<div>
+    <h4>BookModels</h4>
+    <hr />
+    <dl >
+        <dt>@Html.DisplayNameFor(model => model.BookName)</dt>
+            <dd>@Html.DisplayFor(model => model.BookName)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Author)</dt>
+            <dd>@Html.DisplayFor(model => model.Author)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Edition)</dt>
+            <dd>@Html.DisplayFor(model => model.Edition)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Publishing)</dt>
+            <dd>@Html.DisplayFor(model => model.Publishing)</dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

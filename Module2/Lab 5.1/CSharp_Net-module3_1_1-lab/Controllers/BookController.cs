@@ -28,15 +28,10 @@ namespace CSharp_Net_module3_1_1_lab.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult UpdateBook(BookModels bookModels, FormCollection formCollection)
+       [HttpPost]
+        public ActionResult UpdateBook(int bookId)
         {
-            string id = formCollection["SelectedBook"].ToString();
-            string update = Request.Form["update"];
-            //int id= bookModels.SelectedBook;
-            Debug.WriteLine(update);
-            Debug.WriteLine(id);
-            books.UpdateBook(bookModels);
+            books.UpdateBook(books.books[bookId]);
             return RedirectToAction("Index");
         }
 
@@ -57,15 +52,33 @@ namespace CSharp_Net_module3_1_1_lab.Controllers
             // 14) Invoke AddBook() method of book list
             return RedirectToAction("Index");
         }
-        public ActionResult Edit()
-        {
-            return View();
-        }        
+
         [HttpPost]
+        public ActionResult Edit(BookModels bookModels, int id)
+        {
+            books.books[id] = bookModels;
+            return RedirectToAction("Index");
+        }
+        
+        [HttpGet]
         public ActionResult Edit(BookModels bookModels)
         {
-            books.books[int.Parse(RouteData.Values["id"].ToString())] = bookModels;
+            bookModels.Author = books.books[bookModels.Id].Author;
+            bookModels.BookName = books.books[bookModels.Id].BookName;
+            bookModels.Edition = books.books[bookModels.Id].Edition;
+            bookModels.Publishing = books.books[bookModels.Id].Publishing;
+
+            return View(bookModels);
+        }
+        public ActionResult Delete(int id)
+        {
+            books.books.RemoveAt(id);
             return RedirectToAction("Index");
+        }
+        
+        public ActionResult Details(int id)
+        {
+            return View(books.books[id]);
         }
     }
 }
