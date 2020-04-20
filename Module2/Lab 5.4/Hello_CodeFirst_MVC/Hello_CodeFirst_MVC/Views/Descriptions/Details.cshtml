@@ -1,0 +1,35 @@
+﻿@model Hello_CodeFirst_MVC.Models.Description
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Description</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Picture.PictureName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Picture.PictureName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescriptionText)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescriptionText)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.DescriptionID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

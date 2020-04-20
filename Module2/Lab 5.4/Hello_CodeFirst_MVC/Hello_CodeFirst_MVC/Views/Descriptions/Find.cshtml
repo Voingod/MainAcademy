@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Hello_CodeFirst_MVC.Models.Description>
+
+@{
+    ViewBag.Title = "Find";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Find</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Picture.PictureName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DescriptionText)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Picture.PictureName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DescriptionText)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.DescriptionID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.DescriptionID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.DescriptionID })
+        </td>
+    </tr>
+}
+
+</table>
