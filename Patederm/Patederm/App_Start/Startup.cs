@@ -15,7 +15,7 @@ namespace Patederm
     {
         public void Configuration(IAppBuilder app)
         {
-            app.CreatePerOwinContext<UserDbContext>(UserDbContext.Create);
+            app.CreatePerOwinContext<MartineDbContext>(MartineDbContext.Create);
             app.CreatePerOwinContext<AppUserManager>(AppUserManager.Create);
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {

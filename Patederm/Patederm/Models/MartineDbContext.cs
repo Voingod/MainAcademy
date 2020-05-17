@@ -5,13 +5,16 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace Patederm.Models
 {
-    public class MartineDbContext : DbContext
+    public class MartineDbContext : IdentityDbContext<AppUser>
     {
         public MartineDbContext() : base("MartineDbConnection")
         {
 
         }
-
+        public static MartineDbContext Create()
+        {
+            return new MartineDbContext();
+        }
         public DbSet<CardioParam> CardioParams { get; set; }
         public DbSet<CardioParamResultWoman> CardioParamResultWomen { get; set; }
         public DbSet<ClusterStudent> ClusterStudents { get; set; }

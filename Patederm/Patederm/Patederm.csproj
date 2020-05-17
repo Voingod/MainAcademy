@@ -177,6 +177,30 @@
     <Compile Include="Migrations\202005171254091_go3.designer.cs">
       <DependentUpon>202005171254091_go3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005171349183_NewColumnInUsersTable.cs" />
+    <Compile Include="Migrations\202005171349183_NewColumnInUsersTable.designer.cs">
+      <DependentUpon>202005171349183_NewColumnInUsersTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005171355352_NewColumnInUsersTable1.cs" />
+    <Compile Include="Migrations\202005171355352_NewColumnInUsersTable1.designer.cs">
+      <DependentUpon>202005171355352_NewColumnInUsersTable1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005171357388_NewColumnInUsersTable2.cs" />
+    <Compile Include="Migrations\202005171357388_NewColumnInUsersTable2.designer.cs">
+      <DependentUpon>202005171357388_NewColumnInUsersTable2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005171410153_NewColumnInUsersTable3.cs" />
+    <Compile Include="Migrations\202005171410153_NewColumnInUsersTable3.designer.cs">
+      <DependentUpon>202005171410153_NewColumnInUsersTable3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005171423580_NewColumnInUsersTable4.cs" />
+    <Compile Include="Migrations\202005171423580_NewColumnInUsersTable4.designer.cs">
+      <DependentUpon>202005171423580_NewColumnInUsersTable4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005171440324_NewColumnInUsersTable5.cs" />
+    <Compile Include="Migrations\202005171440324_NewColumnInUsersTable5.designer.cs">
+      <DependentUpon>202005171440324_NewColumnInUsersTable5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CardioParam.cs" />
     <Compile Include="Models\CardioParamResultWoman.cs" />
@@ -185,7 +209,7 @@
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Identity\IdentityModels.cs" />
     <Compile Include="Models\Identity\LoginModel.cs" />
-    <Compile Include="Models\Identity\UserDbContext.cs" />
+    <Compile Include="Models\Identity\__UserDbContext.cs" />
     <Compile Include="Models\MartineDbContext.cs" />
     <Compile Include="Models\Identity\RegisterModel.cs" />
     <Compile Include="Models\Student.cs" />
@@ -265,6 +289,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005171254091_go3.resx">
       <DependentUpon>202005171254091_go3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005171349183_NewColumnInUsersTable.resx">
+      <DependentUpon>202005171349183_NewColumnInUsersTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005171355352_NewColumnInUsersTable1.resx">
+      <DependentUpon>202005171355352_NewColumnInUsersTable1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005171357388_NewColumnInUsersTable2.resx">
+      <DependentUpon>202005171357388_NewColumnInUsersTable2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005171410153_NewColumnInUsersTable3.resx">
+      <DependentUpon>202005171410153_NewColumnInUsersTable3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005171423580_NewColumnInUsersTable4.resx">
+      <DependentUpon>202005171423580_NewColumnInUsersTable4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005171440324_NewColumnInUsersTable5.resx">
+      <DependentUpon>202005171440324_NewColumnInUsersTable5.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

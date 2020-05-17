@@ -11,7 +11,9 @@ namespace Patederm.Models
 {
     public class AppUser : IdentityUser
     {
-        //public virtual ICollection<Student> Students { get; set; }
+        //public virtual Student Student { get; set; }
+        //public int StudentID { get; set; }
+        //public string UserId { get; set; }
     }
 
     public class AppUserManager : UserManager<AppUser>
@@ -22,7 +24,7 @@ namespace Patederm.Models
         public static AppUserManager Create(IdentityFactoryOptions<AppUserManager> options,
             IOwinContext context)
         {
-            UserDbContext db = context.Get<UserDbContext>();
+            MartineDbContext db = context.Get<MartineDbContext>();
             AppUserManager manager = new AppUserManager(new UserStore<AppUser>(db))
             {
                 PasswordValidator = new PasswordValidator

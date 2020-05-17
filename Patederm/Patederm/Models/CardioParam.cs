@@ -8,7 +8,7 @@ namespace Patederm.Models
     public class CardioParam
     {
         public int Id { get; set; }
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
         public double ASP { get; set; }
         public double ADP { get; set; }
         public double HR { get; set; }
