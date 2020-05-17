@@ -4,13 +4,13 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace Patederm.Models
 {
-    //public class UserDbContext : IdentityDbContext<AppUser>
-    //{
-    //    public UserDbContext() : base("MartineDbConnection") { }
+    public class UserDbContext : IdentityDbContext<AppUser>
+    {
+        public UserDbContext() : base("MartineDbConnection") { }
 
-    //    public static UserDbContext Create()
-    //    {
-    //        return new UserDbContext();
-    //    }
-    //}
+        public static UserDbContext Create()
+        {
+            return new UserDbContext();
+        }
+    }
 }

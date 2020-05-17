@@ -19,26 +19,26 @@ namespace Patederm.Models
         public AppUserManager(IUserStore<AppUser> store) : base(store)
         {
         }
-        //public static AppUserManager Create(IdentityFactoryOptions<AppUserManager> options,
-        //    IOwinContext context)
-        //{
-            //UserDbContext db = context.Get<UserDbContext>();
-            //AppUserManager manager = new AppUserManager(new UserStore<AppUser>(db))
-            //{
-            //    PasswordValidator = new PasswordValidator
-            //    {
-            //        RequiredLength = 6,
-            //        RequireNonLetterOrDigit = false,
-            //        RequireDigit = true,
-            //        RequireLowercase = true,
-            //        RequireUppercase = true
-            //    }
-            //};
-            //manager.UserValidator = new UserValidator<AppUser>(manager)
-            //{
-            //    RequireUniqueEmail = true
-            //};
-            //return manager;
-        //}
+        public static AppUserManager Create(IdentityFactoryOptions<AppUserManager> options,
+            IOwinContext context)
+        {
+            UserDbContext db = context.Get<UserDbContext>();
+            AppUserManager manager = new AppUserManager(new UserStore<AppUser>(db))
+            {
+                PasswordValidator = new PasswordValidator
+                {
+                    RequiredLength = 6,
+                    RequireNonLetterOrDigit = false,
+                    RequireDigit = true,
+                    RequireLowercase = true,
+                    RequireUppercase = true
+                }
+            };
+            manager.UserValidator = new UserValidator<AppUser>(manager)
+            {
+                RequireUniqueEmail = true
+            };
+            return manager;
+        }
     }
 }
