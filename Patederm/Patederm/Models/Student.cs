@@ -13,14 +13,9 @@ namespace Patederm.Models
         [ForeignKey("User")]
         public string Id { get; set; }
         public virtual AppUser User { get; set; }
+
         public int DepartmentId { get; set; }
         public int TypeOfSportId { get; set; }
-
-        //
-
-        //[Key, ForeignKey("User")]
-        //public string UserId { get; set; }
-        //public virtual AppUser User { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string Surname { get; set; }
@@ -29,6 +24,5 @@ namespace Patederm.Models
         public byte Sex { get; set; }
         public ICollection<ClusterStudent> ClusterStudents { get; set; }
         public ICollection<CardioParam> CardioParams{ get; set; }
-        //public ICollection<AppUser> AppUsers{ get; set; }
     }
 }

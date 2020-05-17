@@ -209,7 +209,6 @@
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Identity\IdentityModels.cs" />
     <Compile Include="Models\Identity\LoginModel.cs" />
-    <Compile Include="Models\Identity\__UserDbContext.cs" />
     <Compile Include="Models\MartineDbContext.cs" />
     <Compile Include="Models\Identity\RegisterModel.cs" />
     <Compile Include="Models\Student.cs" />
