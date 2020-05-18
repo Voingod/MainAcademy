@@ -44,8 +44,14 @@ namespace Patederm.Controllers
                     Email = registerModel.Email,
                 };
                 IdentityResult result = await UserManager.CreateAsync(user, registerModel.Password);
+
                 if (result.Succeeded)
                 {
+                    using (var context = new MartineDbContext())
+                    {
+                        context.Students.Add(new Student { Id = user.Id});
+                        context.SaveChanges();
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 else

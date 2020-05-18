@@ -2,10 +2,8 @@
 
 @{
     ViewBag.Title = "Index";
-
     int minute = Model.Select(a => a.Minute).Max() + 1;
     byte[] clusters = Model.Select(a => a.ClusterWomanId).Distinct().ToArray();
-
 }
 <style>
     .cluster_table {
@@ -59,6 +57,18 @@
             background: #00bf80;
             border: 1px solid #01ab73;
         }
+
+    .saveData {
+        color: coral;
+        font-weight: bold;
+        /*background: #00bf80;*/
+        border: 1px solid #4800ff;
+        float: left;
+        width: 10%;
+        padding: 7px 7px 7px 7px;
+        margin: 10px 0px 0px 0px;
+        align-content: space-between;
+    }
 </style>
 <h2>Исследования</h2>
 <hr />
@@ -121,10 +131,13 @@
 
     </table>
 </div>
-
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
 <div class="input_data">
     @using (Ajax.BeginForm("Calculate", "Research", new AjaxOptions { UpdateTargetId = "results" }))
     {
+        <input type="hidden" value="@ViewBag.UserId" name="userId" />
         <table class="input_table">
             <thead>
                 <tr>
@@ -137,9 +150,6 @@
             @for (int i = 0; i < minute; i++)
             {
                 <tr>
-                    @*<td><input type="hidden" name="Id" value="0.1"></td>
-                        <td><input type="hidden" name="StudentId" value="0.1"></td>*@
-
                     <td><input type="number" name="[@i].ASP" step="0.1" class="input_block" value="@i"></td>
                     <td><input type="number" name="[@i].ADP" step="0.1" class="input_block" value="@i"></td>
                     <td><input type="number" name="[@i].HR" step="0.1" class="input_block" value="@i"></td>
@@ -149,14 +159,32 @@
 
         </table>
         <p id="results"> @ViewBag.ASP </p>
-        <div>
-            <input type="submit" value="Send">
-            @if (Request.IsAuthenticated)
-            {
-                <input type="submit" value="Save">
-            }
-        </div>
+        <input type="submit" value="Send">
     }
+    <div>
+        @if (Request.IsAuthenticated)
+        { 
+            @Html.ActionLink("Save", "Save", new { id = 0 }, new { @class = "saveData" })
+            @*<input type="submit" value="Save">*@
+        }
+    </div>
 </div>
 
 
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $(".saveData").click(function (e) {
+
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+            });
+        })
+    </script>
+}

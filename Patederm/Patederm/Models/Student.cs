@@ -23,6 +23,14 @@ namespace Patederm.Models
         public DateTime Birthday { get; set; }
         public byte Sex { get; set; }
         public ICollection<ClusterStudent> ClusterStudents { get; set; }
-        public ICollection<CardioParam> CardioParams{ get; set; }
+        public ICollection<CardioParam> CardioParams { get; set; }
+        public Student()
+        {
+            int id = (int)ID.None;
+            DepartmentId = id;
+            TypeOfSportId = id;
+        }
     }
+
+    enum ID : byte { None = 1 }
 }

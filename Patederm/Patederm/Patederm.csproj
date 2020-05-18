@@ -201,6 +201,34 @@
     <Compile Include="Migrations\202005171440324_NewColumnInUsersTable5.designer.cs">
       <DependentUpon>202005171440324_NewColumnInUsersTable5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005172027143_go4.cs" />
+    <Compile Include="Migrations\202005172027143_go4.designer.cs">
+      <DependentUpon>202005172027143_go4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005172115372_ClusterStudentNewColumn.cs" />
+    <Compile Include="Migrations\202005172115372_ClusterStudentNewColumn.designer.cs">
+      <DependentUpon>202005172115372_ClusterStudentNewColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005172208475_ClusterStudentNewColumn1.cs" />
+    <Compile Include="Migrations\202005172208475_ClusterStudentNewColumn1.designer.cs">
+      <DependentUpon>202005172208475_ClusterStudentNewColumn1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005172212073_ClusterStudentNewColumn2.cs" />
+    <Compile Include="Migrations\202005172212073_ClusterStudentNewColumn2.designer.cs">
+      <DependentUpon>202005172212073_ClusterStudentNewColumn2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005172214317_ClusterStudentNewColumn3.cs" />
+    <Compile Include="Migrations\202005172214317_ClusterStudentNewColumn3.designer.cs">
+      <DependentUpon>202005172214317_ClusterStudentNewColumn3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005172216128_ClusterStudentNewColumn4.cs" />
+    <Compile Include="Migrations\202005172216128_ClusterStudentNewColumn4.designer.cs">
+      <DependentUpon>202005172216128_ClusterStudentNewColumn4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005172222533_Relation.cs" />
+    <Compile Include="Migrations\202005172222533_Relation.designer.cs">
+      <DependentUpon>202005172222533_Relation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CardioParam.cs" />
     <Compile Include="Models\CardioParamResultWoman.cs" />
@@ -259,6 +287,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Research\Save.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -306,6 +335,27 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005171440324_NewColumnInUsersTable5.resx">
       <DependentUpon>202005171440324_NewColumnInUsersTable5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005172027143_go4.resx">
+      <DependentUpon>202005172027143_go4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005172115372_ClusterStudentNewColumn.resx">
+      <DependentUpon>202005172115372_ClusterStudentNewColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005172208475_ClusterStudentNewColumn1.resx">
+      <DependentUpon>202005172208475_ClusterStudentNewColumn1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005172212073_ClusterStudentNewColumn2.resx">
+      <DependentUpon>202005172212073_ClusterStudentNewColumn2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005172214317_ClusterStudentNewColumn3.resx">
+      <DependentUpon>202005172214317_ClusterStudentNewColumn3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005172216128_ClusterStudentNewColumn4.resx">
+      <DependentUpon>202005172216128_ClusterStudentNewColumn4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005172222533_Relation.resx">
+      <DependentUpon>202005172222533_Relation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
