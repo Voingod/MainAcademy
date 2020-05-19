@@ -4,6 +4,9 @@ using Microsoft.Owin.Security;
 using Patederm.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -49,7 +52,7 @@ namespace Patederm.Controllers
                 {
                     using (var context = new MartineDbContext())
                     {
-                        context.Students.Add(new Student { Id = user.Id});
+                        context.Students.Add(new Student { Id = user.Id });
                         context.SaveChanges();
                     }
                     return RedirectToAction("Index", "Home");
@@ -85,9 +88,9 @@ namespace Patederm.Controllers
                     AuthenticationManager.SignOut();
                     AuthenticationManager.SignIn(new AuthenticationProperties
                     {
-                        IsPersistent = true 
-                    },claims);
-                    return RedirectToAction("Index","Home");
+                        IsPersistent = true
+                    }, claims);
+                    return RedirectToAction("Index", "Home");
                 }
 
             }
@@ -102,5 +105,20 @@ namespace Patederm.Controllers
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
+
+        public ActionResult UserAccount()
+        {
+            using (var context = new MartineDbContext())
+            {
+                var user = User.Identity.GetUserId();
+                var model = context.Students
+                    .Include(c => c.CardioParams)
+                    .Include(c => c.ClusterStudents)
+                    .Include(c => c.User)
+                    .Where(c => c.Id == user).FirstOrDefault();
+                return View(model);
+            }
+        }
     }
+
 }
