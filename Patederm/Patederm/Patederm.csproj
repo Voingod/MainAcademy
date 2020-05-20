@@ -158,6 +158,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ResearchController.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -229,6 +230,10 @@
     <Compile Include="Migrations\202005172222533_Relation.designer.cs">
       <DependentUpon>202005172222533_Relation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005201932260_newtype.cs" />
+    <Compile Include="Migrations\202005201932260_newtype.designer.cs">
+      <DependentUpon>202005201932260_newtype.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CardioParam.cs" />
     <Compile Include="Models\CardioParamResultWoman.cs" />
@@ -289,6 +294,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Research\Save.cshtml" />
     <Content Include="Views\Account\UserAccount.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -357,6 +363,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005172222533_Relation.resx">
       <DependentUpon>202005172222533_Relation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005201932260_newtype.resx">
+      <DependentUpon>202005201932260_newtype.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

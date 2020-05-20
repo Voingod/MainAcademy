@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -114,10 +115,64 @@ namespace Patederm.Controllers
                 var model = context.Students
                     .Include(c => c.CardioParams)
                     .Include(c => c.ClusterStudents)
-                    .Include(c => c.User)
-                    .Where(c => c.Id == user).FirstOrDefault();
+                    .Include(u => u.User)
+                    .Where(u => u.Id == user).FirstOrDefault();
+
+                ViewBag.Department = context.Departments
+                    .Include(s => s.Students)
+                    .Where(i => i.Id == model.DepartmentId)
+                    .Select(d => d.DepartmentName).FirstOrDefault();
+
+                ViewBag.Sport = context.TypeOfSports
+                    .Include(s => s.Students)
+                    .Where(i => i.Id == model.TypeOfSportId)
+                    .Select(d => d.TypeOfSportName).FirstOrDefault();
+
                 return View(model);
             }
+        }
+        public ActionResult Edit(Student student)
+        {
+            var context = new MartineDbContext();
+            var viewStudent = context.Students.Where(u => u.Id == student.Id).FirstOrDefault();
+
+            student.FirstName = viewStudent.FirstName;
+            student.Birthday = viewStudent.Birthday;
+            student.Course = viewStudent.Course;
+            student.DepartmentId = viewStudent.DepartmentId;
+            student.SecondName = viewStudent.SecondName;
+            student.Sex = viewStudent.Sex;
+            student.Surname = viewStudent.Surname;
+            student.TypeOfSportId = viewStudent.TypeOfSportId;
+
+            ViewBag.Department = new SelectList(context.Departments, "Id", "DepartmentName", student.DepartmentId);
+            ViewBag.Sport = new SelectList(context.TypeOfSports, "Id", "TypeOfSportName", student.TypeOfSportId);
+
+            return View(student);
+        }
+        [HttpPost]
+        public ActionResult Edit(Student student, int Department, int Sport)
+        {
+            using (var context = new MartineDbContext())
+            {
+                var updatedtudent = context.Students.Where(u => u.Id == student.Id).FirstOrDefault();
+
+                student.DepartmentId = Department;
+                student.TypeOfSportId = Sport;
+
+                updatedtudent.FirstName = student.FirstName;
+                updatedtudent.Birthday = student.Birthday;
+                updatedtudent.Course = student.Course;
+                updatedtudent.DepartmentId = student.DepartmentId;
+                updatedtudent.SecondName = student.SecondName;
+                updatedtudent.Sex = student.Sex;
+                updatedtudent.Surname = student.Surname;
+                updatedtudent.TypeOfSportId = student.TypeOfSportId;
+                
+                context.SaveChanges();
+                return RedirectToAction("UserAccount");
+            }
+
         }
     }
 

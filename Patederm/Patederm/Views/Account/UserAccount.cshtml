@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "UserAccount";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var sex = (Sex)Model.Sex;
 }
 
 <h2>UserAccount</h2>
@@ -16,7 +17,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DepartmentId)
+            @ViewBag.Department
         </dd>
 
         <dt>
@@ -24,7 +25,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TypeOfSportId)
+            @ViewBag.Sport
         </dd>
 
         <dt>
@@ -68,16 +69,16 @@
         </dd>
 
         <dt>
+           
             @Html.DisplayNameFor(model => model.Sex)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Sex)
+            @sex
         </dd>
 
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.User.Id }) |
-    @Html.ActionLink("Back to List", "Index")
 </p>
