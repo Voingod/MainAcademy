@@ -1,0 +1,39 @@
+﻿@model Patederm.Models.ResultViewModel
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Conclusion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Recomendation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NextConclusion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NextRecomendation)
+        </th>
+        <th></th>
+    </tr>
+
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem.Conclusion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem.Recomendation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem.NextConclusion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem.NextRecomendation)
+        </td>
+
+    </tr>
+
+
+</table>

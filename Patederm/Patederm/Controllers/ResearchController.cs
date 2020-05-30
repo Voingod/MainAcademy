@@ -13,9 +13,7 @@ namespace Patederm.Controllers
 {
     public class ResearchController : Controller
     {
-        readonly MartineDbContext db = new MartineDbContext();
-        static List<CardioParam> cardioParamsGlobal = new List<CardioParam>();
-        static SortedDictionary<double, byte> clustersDistance;
+        private readonly MartineDbContext db = new MartineDbContext();
 
         // GET: Research
         public ActionResult Index()
@@ -25,11 +23,11 @@ namespace Patederm.Controllers
         }
 
         [HttpPost]
-        public ActionResult Calculate(List<CardioParam> cardioParams, string userId)
+        public PartialViewResult Calculate(List<CardioParam> cardioParams, string userId)
         {
-            cardioParamsGlobal = cardioParams;
+            SortedDictionary<double, byte> clustersDistance = new SortedDictionary<double, byte>();
             List<CardioParamResultWoman> cardioParamResultWomen = db.CardioParamResultWomen.ToList();
-            clustersDistance = new SortedDictionary<double, byte>();
+            ResultViewModel resultViewModel = new ResultViewModel();
             int clustersCount = cardioParamResultWomen.Select(m => m.ClusterWomanId).Distinct().Count();
 
             for (int i = 0; i < clustersCount; i++)
@@ -68,24 +66,31 @@ namespace Patederm.Controllers
             var nextResult = db.ClusterWomen
                 .Where(cl => cl.Cluster == nextClusterFound).ToArray()[0];
 
-            ViewBag.ResultConclusion = result.Conclusion;
-            ViewBag.ResultRecomendation = result.Recomendation;
-            ViewBag.NextResultConclusion = nextResult.Conclusion;
-            ViewBag.NextResultRecomendation = nextResult.Recomendation;
+            resultViewModel.Conclusion = result.Conclusion;
+            resultViewModel.Recomendation = result.Recomendation;
+            resultViewModel.NextConclusion = nextResult.Conclusion;
+            resultViewModel.NextRecomendation = nextResult.Recomendation;
 
             foreach (var item in clustersDistance)
             {
                 Debug.WriteLine(item.Value+".: "+item.Key);
             }
             Debug.WriteLine("-----------");
-            return PartialView();
+
+            TempData["cardioParams"] = cardioParams;
+            TempData["clustersDistance"] = clustersDistance;
+
+            return PartialView("_Calculate", resultViewModel);
         }
 
         public ActionResult Save()
         {
+            var cardioParams = (List<CardioParam>)TempData["cardioParams"];
+            var clustersDistance = (SortedDictionary<double, byte>)TempData["clustersDistance"];
+
             try
             {
-                foreach (var item in cardioParamsGlobal)
+                foreach (var item in cardioParams)
                 {
                     db.CardioParams.Add(new CardioParam
                     {
@@ -99,7 +104,7 @@ namespace Patederm.Controllers
 
                 db.ClusterStudents.Add(new ClusterStudent
                 {
-                    StudentId = cardioParamsGlobal[0].StudentId,
+                    StudentId = cardioParams[0].StudentId,
                     ClusterWomanId = clustersDistance.Values.Select(t => t).ToArray()[0],
                     NextClusterWomanId = clustersDistance.Values.Select(t => t).ToArray()[1],
                     Dist = clustersDistance.Keys.Select(t => t).ToArray()[0],
@@ -108,14 +113,15 @@ namespace Patederm.Controllers
 
 
                 db.SaveChanges();
-                ViewBag.Status = @"Данные успешно сохранены !";
+                ViewBag.Status = "Данные успешно сохранены !";
                 return PartialView("Save");
             }
             catch
             {
-                ViewBag.Status = @"Данные не были сохранены !";
+                ViewBag.Status = "Данные не были сохранены !";
                 return PartialView("Save");
             }
         }
+
     }
 }

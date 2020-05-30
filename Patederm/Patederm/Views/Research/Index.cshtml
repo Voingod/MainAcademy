@@ -5,71 +5,7 @@
     int minute = Model.Select(a => a.Minute).Max() + 1;
     byte[] clusters = Model.Select(a => a.ClusterWomanId).Distinct().ToArray();
 }
-<style>
-    .cluster_table {
-        float: left;
-        width: 50%;
-    }
-
-        .cluster_table thead {
-            color: #ffffff;
-            font-weight: bold;
-            background: #00bf80;
-            border: 1px solid #01ab73;
-        }
-
-        .cluster_table tr, td, th {
-            border: 1px solid #e8e9eb;
-            padding: 7px 15px 1px 15px;
-        }
-            /*чередование цвета в строка*/
-            .cluster_table tr:nth-child(2n) {
-                background: #f4f4f4;
-            }
-        /*подсветка при наведении строки*/
-        .cluster_table table tbody tr:hover {
-            background: #ebffe8;
-        }
-
-    .input_data {
-        float: left;
-        width: 50%;
-    }
-
-    .input_block {
-        width: 60%;
-        text-align: center;
-    }
-
-    .input_table {
-        border: 0px;
-        text-align: center;
-    }
-
-        .input_table tr, td, th {
-            border: 0px;
-            text-align: center;
-        }
-
-        .input_table thead {
-            color: #ffffff;
-            font-weight: bold;
-            background: #00bf80;
-            border: 1px solid #01ab73;
-        }
-
-    .saveData {
-        color: coral;
-        font-weight: bold;
-        /*background: #00bf80;*/
-        border: 1px solid #4800ff;
-        float: left;
-        width: 10%;
-        padding: 7px 7px 7px 7px;
-        margin: 10px 0px 0px 0px;
-        align-content: space-between;
-    }
-</style>
+<link rel="stylesheet" href="~/Content/StylesForResearch.css">
 <h2>Исследования</h2>
 <hr />
 <div class="cluster_table">
@@ -135,37 +71,41 @@
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
 <div class="input_data">
-    @using (Ajax.BeginForm("Calculate", "Research", new AjaxOptions { UpdateTargetId = "results" }))
-    {
-        <input type="hidden" value="@ViewBag.UserId" name="userId" />
-        <table class="input_table">
-            <thead>
-                <tr>
-                    <th>ASP</th>
-                    <th>ADR</th>
-                    <th>HR</th>
-                    <th>Minute</th>
-                </tr>
-            </thead>
-            @for (int i = 0; i < minute; i++)
-            {
-                <tr>
-                    <td><input type="number" name="[@i].ASP" step="0.1" class="input_block" value="@i"></td>
-                    <td><input type="number" name="[@i].ADP" step="0.1" class="input_block" value="@i"></td>
-                    <td><input type="number" name="[@i].HR" step="0.1" class="input_block" value="@i"></td>
-                    <td><input type="number" name="[@i].Minute" step="0.1" class="input_block" value="@i" readonly></td>
-                </tr>
-            }
 
-        </table>
-        <p id="results"> @ViewBag.ASP </p>
+    @using (Ajax.BeginForm("Calculate", "Research", new AjaxOptions { UpdateTargetId = "results", HttpMethod = "Post" }))
+    {<div>
+            <input type="hidden" value="@ViewBag.UserId" name="userId" />
+            <table class="input_table">
+                <thead>
+                    <tr>
+                        <th>ASP</th>
+                        <th>ADR</th>
+                        <th>HR</th>
+                        <th>Minute</th>
+                    </tr>
+                </thead>
+                @for (int i = 0; i < minute; i++)
+                {
+                    <tr>
+                        <td><input type="number" name="[@i].ASP" step="0.1" class="input_block" value="@i"></td>
+                        <td><input type="number" name="[@i].ADP" step="0.1" class="input_block" value="@i"></td>
+                        <td><input type="number" name="[@i].HR" step="0.1" class="input_block" value="@i"></td>
+                        <td><input type="number" name="[@i].Minute" step="0.1" class="input_block" value="@i" readonly></td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+        <div id="results"></div>
         <input type="submit" value="Send">
     }
+
+
     <div>
         @if (Request.IsAuthenticated)
-        { 
+        {
             @Html.ActionLink("Save", "Save", new { id = 0 }, new { @class = "saveData" })
-            @*<input type="submit" value="Save">*@
+            @*<input type="submit" value="Save" style="display:block">*@
         }
     </div>
 </div>
