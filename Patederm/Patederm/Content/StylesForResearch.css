@@ -3,25 +3,25 @@
     width: 50%;
 }
 
-.cluster_table thead {
-    color: #ffffff;
-    font-weight: bold;
-    background: #00bf80;
-    border: 1px solid #01ab73;
-}
-
-.cluster_table tr, td, th {
-    border: 1px solid #e8e9eb;
-    padding: 7px 15px 1px 15px;
-}
-    /*чередование цвета в строка*/
-    .cluster_table tr:nth-child(2n) {
-        background: #f4f4f4;
+    .cluster_table thead {
+        color: #ffffff;
+        font-weight: bold;
+        background: #00bf80;
+        border: 1px solid #01ab73;
     }
-/*подсветка при наведении строки*/
-.cluster_table table tbody tr:hover {
-    background: #ebffe8;
-}
+
+    .cluster_table tr, td, th {
+        border: 1px solid #e8e9eb;
+        padding: 7px 15px 1px 15px;
+    }
+        /*чередование цвета в строка*/
+        .cluster_table tr:nth-child(2n) {
+            background: #f4f4f4;
+        }
+    /*подсветка при наведении строки*/
+    .cluster_table table tbody tr:hover {
+        background: #ebffe8;
+    }
 
 .input_data {
     float: left;
@@ -63,3 +63,30 @@
 }
 
 
+.menu ul ul > li:hover {
+    background-color: #69e;
+}
+
+.menu ul ul {
+    display: none;
+    position: absolute;
+    background-color: #369;
+}
+
+.menu ul a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.menu ul ul a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.menu li:hover ul {
+    display: block;
+}
+
+.menu li:hover li {
+    display: block;
+}

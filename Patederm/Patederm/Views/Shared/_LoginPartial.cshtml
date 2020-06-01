@@ -1,16 +1,24 @@
 ﻿@using Microsoft.AspNet.Identity
+
+<link rel="stylesheet" href="~/Content/StylesForResearch.css">
+
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
-
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink("Здравствуйте " + User.Identity.GetUserName() + "!", "UserAccount", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
-        </ul>
+        <div class="menu">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    @Html.ActionLink("Здравствуйте " + User.Identity.GetUserName() + "!", "UserAccount", "Account", routeValues: null, htmlAttributes: new { title = "Аккаунт" })
+                    <ul>
+                        <li>@Html.ActionLink("Аккаунт пользователя", "UserAccount", "Account")</li>
+                        <li>@Html.ActionLink("Результаты исследования пользователя", "UserAccount", "Account")</li>
+                    </ul>
+                </li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
+            </ul>
+        </div>
     }
 }
 else
