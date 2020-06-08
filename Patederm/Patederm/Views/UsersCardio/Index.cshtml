@@ -1,0 +1,66 @@
+﻿@model List<Patederm.Models.UserCardioViewModel>
+
+@{
+    ViewBag.Title = "GetUserCardioParams";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    byte minuteMin = Model.Min(m => m.Minute);
+    var minuteMax = Model.Max(m => m.Minute) + 1;
+}
+
+<h2>GetUserCardioParams</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().ADP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().ASP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().HR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Minute)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().ClusterWomanId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Dist)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().NextClusterWomanId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().NextDist)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().StudentId)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.ADP)</td>
+            <td>@Html.DisplayFor(modelItem => item.ASP)</td>
+            <td>@Html.DisplayFor(modelItem => item.HR)</td>
+            <td>@Html.DisplayFor(modelItem => item.Minute)</td>
+            <td>@Html.DisplayFor(modelItem => item.ClusterWomanId)</td>
+
+            @if (item.Minute == minuteMin)
+            {
+                <td rowspan="@minuteMax">@Html.DisplayFor(modelItem => item.Dist)</td>
+                <td rowspan="@minuteMax">@Html.DisplayFor(modelItem => item.NextClusterWomanId)</td>
+                <td rowspan="@minuteMax">@Html.DisplayFor(modelItem => item.NextDist)</td>
+                <td rowspan="@minuteMax">@Html.DisplayFor(modelItem => item.StudentId)</td>
+            }
+
+        </tr>
+    }
+
+</table>
