@@ -16,8 +16,8 @@ namespace Patederm.Controllers
         {
             string userId = User.Identity.GetUserId();
             var table = db.CardioParams.Join(db.ClusterStudents,
-                c => c.StudentId,
-                s => s.StudentId,
+                c => c.ClusterStudentId,
+                s => s.Id,
                 (c, s) =>
                 new UserCardioViewModel
                 {
@@ -25,9 +25,9 @@ namespace Patederm.Controllers
                     ASP = c.ASP,
                     HR = c.HR,
                     Minute = c.Minute,
-                    ClusterWomanId = s.ClusterWomanId,
+                    ClusterStudent = s.ClusterWomanId,
                     Dist = s.Dist,
-                    NextClusterWomanId = s.NextClusterWomanId,
+                    NextClusterStudent = s.NextClusterWomanId,
                     NextDist = s.NextDist,
                     StudentId = s.StudentId,
                 }).Where(s => s.StudentId == userId).ToList();

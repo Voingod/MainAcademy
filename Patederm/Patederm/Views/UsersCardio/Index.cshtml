@@ -9,9 +9,6 @@
 
 <h2>GetUserCardioParams</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -27,13 +24,13 @@
             @Html.DisplayNameFor(model => model.First().Minute)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.First().ClusterWomanId)
+            @Html.DisplayNameFor(model => model.First().ClusterStudent)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.First().Dist)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.First().NextClusterWomanId)
+            @Html.DisplayNameFor(model => model.First().NextClusterStudent)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.First().NextDist)
@@ -45,22 +42,23 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.ADP)</td>
-            <td>@Html.DisplayFor(modelItem => item.ASP)</td>
-            <td>@Html.DisplayFor(modelItem => item.HR)</td>
-            <td>@Html.DisplayFor(modelItem => item.Minute)</td>
-            <td>@Html.DisplayFor(modelItem => item.ClusterWomanId)</td>
+<tr>
+    <td>@Html.DisplayFor(modelItem => item.ADP)</td>
+    <td>@Html.DisplayFor(modelItem => item.ASP)</td>
+    <td>@Html.DisplayFor(modelItem => item.HR)</td>
+    <td>@Html.DisplayFor(modelItem => item.Minute)</td>
 
-            @if (item.Minute == minuteMin)
-            {
-                <td rowspan="@minuteMax">@Html.DisplayFor(modelItem => item.Dist)</td>
-                <td rowspan="@minuteMax">@Html.DisplayFor(modelItem => item.NextClusterWomanId)</td>
-                <td rowspan="@minuteMax">@Html.DisplayFor(modelItem => item.NextDist)</td>
-                <td rowspan="@minuteMax">@Html.DisplayFor(modelItem => item.StudentId)</td>
-            }
 
-        </tr>
+    @if (item.Minute == minuteMin)
+    {
+        <td rowspan="@minuteMax">@Html.DisplayFor(modelItem => item.ClusterStudent)</td>
+        <td rowspan="@minuteMax">@Html.DisplayFor(modelItem => item.Dist)</td>
+        <td rowspan="@minuteMax">@Html.DisplayFor(modelItem => item.NextClusterStudent)</td>
+        <td rowspan="@minuteMax">@Html.DisplayFor(modelItem => item.NextDist)</td>
+        <td rowspan="@minuteMax">@Html.DisplayFor(modelItem => item.StudentId)</td>
+    }
+
+</tr>
     }
 
 </table>
