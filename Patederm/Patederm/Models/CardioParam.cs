@@ -13,6 +13,7 @@ namespace Patederm.Models
         public double ADP { get; set; }
         public double HR { get; set; }
         public byte Minute { get; set; }
-       
+        public int ClusterStudentId { get; set; }
+
     }
 }

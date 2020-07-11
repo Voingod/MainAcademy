@@ -18,7 +18,7 @@ namespace Patederm.Controllers
         // GET: Research
         public ActionResult Index()
         {
-            ViewBag.UserId= User.Identity.GetUserId();
+            ViewBag.UserId = User.Identity.GetUserId();
             return View(db.CardioParamResultWomen);
         }
 
@@ -32,7 +32,7 @@ namespace Patederm.Controllers
 
             for (int i = 0; i < clustersCount; i++)
             {
-                
+
                 double distance = 0;
                 var cardioParamResultWomenArray = cardioParamResultWomen
                     .Where(cl => cl.ClusterWomanId == i + 1).ToArray();
@@ -73,7 +73,7 @@ namespace Patederm.Controllers
 
             foreach (var item in clustersDistance)
             {
-                Debug.WriteLine(item.Value+".: "+item.Key);
+                Debug.WriteLine(item.Value + ".: " + item.Key);
             }
             Debug.WriteLine("-----------");
 
@@ -98,7 +98,9 @@ namespace Patederm.Controllers
                         ASP = item.ASP,
                         HR = item.HR,
                         Minute = item.Minute,
-                        StudentId = item.StudentId
+                        StudentId = item.StudentId,
+                        ClusterStudentId = item.ClusterStudentId
+
                     });
                 }
 

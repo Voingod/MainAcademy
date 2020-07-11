@@ -13,5 +13,6 @@ namespace Patederm.Models
         public string StudentId { get; set; }
         public double Dist { get; set; }
         public double NextDist { get; set; }
+        public ICollection<CardioParam> CardioParams{ get; set; }
     }
 }

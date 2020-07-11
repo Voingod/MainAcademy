@@ -235,6 +235,10 @@
     <Compile Include="Migrations\202005201932260_newtype.designer.cs">
       <DependentUpon>202005201932260_newtype.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006242007484_newRow.cs" />
+    <Compile Include="Migrations\202006242007484_newRow.designer.cs">
+      <DependentUpon>202006242007484_newRow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CardioParam.cs" />
     <Compile Include="Models\CardioParamResultWoman.cs" />
@@ -372,6 +376,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005201932260_newtype.resx">
       <DependentUpon>202005201932260_newtype.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006242007484_newRow.resx">
+      <DependentUpon>202006242007484_newRow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
